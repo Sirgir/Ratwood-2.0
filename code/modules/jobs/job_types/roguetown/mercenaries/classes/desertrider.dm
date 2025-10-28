@@ -116,6 +116,11 @@
 	wrists = /obj/item/clothing/wrists/roguetown/splintarms
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen
+	shoes = /obj/item/clothing/shoes/roguetown/shalal
+	belt = /obj/item/storage/belt/rogue/leather/shalal
+	beltl = /obj/item/rogueweapon/scabbard/sword
+	beltr = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary,
@@ -144,12 +149,6 @@
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 			r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			backl = /obj/item/quiver/arrows
-	shoes = /obj/item/clothing/shoes/roguetown/shalal
-	belt = /obj/item/storage/belt/rogue/leather/shalal
-	beltl = /obj/item/rogueweapon/scabbard/sword
-	beltr = /obj/item/rogueweapon/scabbard/sword
-	l_hand = /obj/item/rogueweapon/sword/sabre/shamshir
-
 	H.merctype = 4
 
 /datum/advclass/mercenary/desert_rider/almah
