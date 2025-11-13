@@ -25288,8 +25288,7 @@
 /obj/machinery/light/rogue/wallfire/candle{
 	pixel_y = -32
 	},
-/obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town)
 "hUc" = (
 /obj/structure/roguerock{
@@ -29568,6 +29567,10 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/hay,
 /area/rogue/outdoors/town/rockhill)
+"jmL" = (
+/obj/structure/curtain/black,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "jmO" = (
 /obj/structure/table/wood/long_table/right,
 /obj/machinery/light/rogue/oven/south,
@@ -41081,10 +41084,9 @@
 	})
 "nbr" = (
 /obj/structure/roguemachine/vendor{
-	keycontrol = "keeper2";
-	pixel_x = -32
+	keycontrol = "keeper2"
 	},
-/turf/open/floor/rogue/tile,
+/turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/indoors/town/church/basement)
 "nbs" = (
 /obj/structure/fluff/railing/wood{
@@ -68102,7 +68104,7 @@
 "vZP" = (
 /obj/item/paper,
 /obj/item/natural/feather,
-/turf/open/floor/rogue/blocks/flipped,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
 "vZQ" = (
 /obj/machinery/light/rogue/wallfire/candle{
@@ -282972,7 +282974,7 @@ hXp
 hXp
 mtd
 hXp
-hXp
+nbr
 bOE
 ewf
 ewf
@@ -283404,7 +283406,7 @@ bOE
 eLQ
 nnW
 uGJ
-nbr
+ewf
 bOE
 ivN
 bOE
@@ -284268,7 +284270,7 @@ bOE
 bOE
 bOE
 bOE
-vZP
+bwp
 ewf
 ewf
 ewf
@@ -288158,7 +288160,7 @@ xfd
 xxz
 xxz
 cnf
-pIm
+vZP
 oUb
 pIm
 nnW
@@ -373240,10 +373242,10 @@ rfx
 xAt
 xAt
 xre
-eBW
+jmL
 hUb
-xre
 pZg
+xre
 wVI
 sIt
 iGK
@@ -373675,7 +373677,7 @@ azA
 eBW
 eBW
 kac
-xre
+pZg
 wVI
 sIt
 iGK
@@ -374539,7 +374541,7 @@ hRS
 swb
 nNJ
 kcx
-pZg
+xre
 wVI
 pVg
 ePR
@@ -375403,7 +375405,7 @@ hRS
 vgY
 fbR
 gxB
-hdl
+pZg
 wVI
 sIt
 ocQ
