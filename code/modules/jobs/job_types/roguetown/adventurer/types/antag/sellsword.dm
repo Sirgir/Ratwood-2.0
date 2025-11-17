@@ -1,4 +1,4 @@
-/datum/advclass/sellsword //Strength class, starts with axe or flails and medium armor training
+/datum/advclass/sellsword //Common soldier class, starts with spear and crossbow or sword and buckler
 	name = "Sellsword"
 	tutorial = "Perhaps a mercenary, perhaps a deserter - at one time, you killed for a master in return for gold. Now you live with no such master over your head - and take what you please."
 	allowed_sexes = list(MALE, FEMALE)
@@ -7,12 +7,13 @@
 	category_tags = list(CTAG_BANDIT)
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg' // cutpurse or deadly shadows...?
 	subclass_social_rank = SOCIAL_RANK_PEASANT
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_DEATHBYSNUSNU)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED, TRAIT_DEATHBYSNUSNU)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 2,
 		STATKEY_CON = 1,
+		STATKEY_PER = 1,
 		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
