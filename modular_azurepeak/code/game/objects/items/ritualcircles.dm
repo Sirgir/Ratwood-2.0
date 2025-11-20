@@ -1995,7 +1995,6 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			target.add_overlay(marking_overlay)
 			target.update_body_parts()
 			playsound(target, 'sound/health/fastbeat.ogg', 60)
-			target.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE) // hue hue hue
 			spawn(40)
 				to_chat(target, span_purple("Enjoy the new you!"))
 				ADD_TRAIT(target, TRAIT_BAOTHA_FERTILITY_BOON, TRAIT_GENERIC)
