@@ -176,7 +176,7 @@
 		add_overlay(ammo)
 	if(chambered && hasloadedsprite)
 		icon_state = "[item_state][2]"
-	
+
 	if(!ismob(loc))
 		return
 	var/mob/M = loc
@@ -204,4 +204,26 @@
 	movingreload = TRUE
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_HIP
 	penfactor = 0.5		//Bolts have 50 pen, this decreases to 25. Should only pen armor with less than 67 protection.
+
+//Pseudo-Arbalest. This thing is intended to be fuckhuge, but it's using a temp sprite.
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/arbalest
+	name = "sauterelle"
+	desc = "An incredibly heavy crossbow, designed for a dedicated arbalist to wield. \
+	Modified to be loaded by hand. A tedious affair."
+	icon = 'icons/roguetown/weapons/misc32.dmi'
+	icon_state = "heavycrossbow0"
+	item_state = "heavycrossbow"
+	fire_sound = 'sound/combat/Ranged/firebow-shot-02.ogg'
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/heavy_xbow
+	chargingspeed = 60//+20
+	damfactor = 1.5//+30% over standard.
+	reloadtime = 8 SECONDS//Oh, yes...
+	hasloadedsprite = TRUE
+	penfactor = 1.5//We want this to go through, no matter what, effectively.
+
+/obj/item/ammo_box/magazine/internal/shot/heavy_xbow
+	ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
+	caliber = "heabolt"
+	max_ammo = 1
+	start_empty = TRUE
 
