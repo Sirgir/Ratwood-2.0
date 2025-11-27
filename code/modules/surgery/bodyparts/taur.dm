@@ -98,11 +98,99 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/spider
-	name = "Spider Body"
+/obj/item/bodypart/taur/lamiastriped
+	name = "Striped Lamia Tail"
 
 	offset_x = -16
-	taur_icon_state = "spider_s"
+	taur_icon_state = "altnaga_s"
+	taur_markings_state = "naga_tail_markings_lamian_tail"
+	taur_tertiary_state = "nagastriped_markings"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/fatlamia
+	name = "Fat Lamia Tail"
+
+	offset_x = -16
+	taur_icon_state = "nagafat_s"
+	taur_markings_state = "nagafat_markings"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/mermaid
+	name = "Mermaid Tail"
+
+	offset_x = -16
+	taur_icon_state = "altmermaid_s"
+	taur_markings_state = "altmermaid_markings"
+	taur_tertiary_state = "altmermaid_markings2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/orca
+	name = "Orca Tail"
+
+	offset_x = -16
+	taur_icon_state = "orcamermaid_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/otie
+	name = "Otie Body"
+
+	offset_x = -16
+	taur_icon_state = "otie_s"
+	taur_markings_state = "otie_markings"
+	taur_tertiary_state = "otie_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/canine
+	name = "Canine Body"
+
+	offset_x = -16
+	taur_icon_state = "canine_s"
+	taur_markings_state = "canine_markings"
+	taur_tertiary_state = "canine_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/venard
+	name = "Venard Body"
+
+	offset_x = -16
+	taur_icon_state = "venard_s"
+	taur_markings_state = "venard_markings"
+	taur_tertiary_state = "venard_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/drake
+	name = "Drake Body"
+
+	offset_x = -16
+	taur_icon_state = "drake_s"
+	taur_markings_state = "drake_markings"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/dragon
+	name = "Dragon Body"
+
+	offset_x = -16
+	taur_icon_state = "drake2_s"
+	taur_markings_state = "drake2_markings"
+	taur_tertiary_state = "drake2_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/noodle
+	name = "Noodle Dragon Body"
+
+	offset_x = -16
+	taur_icon_state = "noodle_s"
+	taur_markings_state = "noodle_markings"
+	taur_tertiary_state = "noodle_markings_2"
 
 	has_taur_color = TRUE
 
@@ -115,33 +203,31 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/canine
-	name = "Canine Body"
+/obj/item/bodypart/taur/redpanda
+	name = "Red Panda Body"
 
 	offset_x = -16
-	taur_icon_state = "canine_s"
-	taur_markings_state = "canine_markings"
-	clip_mask_state = "clip_mask_saiga"
+	taur_icon_state = "redpanda_s"
+	taur_markings_state = "redpanda_markings"
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/drake
-	name = "Drake Body"
+/obj/item/bodypart/taur/rat
+	name = "Rat Body"
 
 	offset_x = -16
-	taur_icon_state = "drake_s"
-	taur_markings_state = "drake_markings"
-	clip_mask_state = "clip_mask_saiga"
+	taur_icon_state = "rat_s"
+	taur_markings_state = "rat_markings"
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/feline
-	name = "Feline Body"
+/obj/item/bodypart/taur/skunk
+	name = "Skunk Body"
 
 	offset_x = -16
-	taur_icon_state = "feline_s"
-	taur_markings_state = "feline_markings"
-	clip_mask_state = "clip_mask_saiga"
+	taur_icon_state = "skunk_s"
+	taur_markings_state = "skunk_markings"
+	taur_tertiary_state = "skunk_markings_2"
 
 	has_taur_color = TRUE
 
@@ -151,27 +237,45 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 	offset_x = -16
 	taur_icon_state = "kitsune_s"
 	taur_markings_state = "kitsune_markings"
-	clip_mask_state = "clip_mask_saiga"
+	taur_tertiary_state = "kitsune_markings_2"
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/venard
-	name = "Venard Body"
+/obj/item/bodypart/taur/feline
+	name = "Feline Body"
 
 	offset_x = -16
-	taur_icon_state = "venard_s"
-	taur_markings_state = "venard_markings"
-	clip_mask_state = "clip_mask_saiga"
+	taur_icon_state = "feline_s"
+	taur_markings_state = "feline_markings"
+	taur_tertiary_state = "feline_markings_2"
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/otie
-	name = "Otie Body"
+/obj/item/bodypart/taur/snep
+	name = "Tempest Body"
 
 	offset_x = -16
-	taur_icon_state = "otie_s"
-	taur_markings_state = "otie_markings"
-	clip_mask_state = "clip_mask_saiga"
+	taur_icon_state = "tempest_s"
+	taur_markings_state = "feline_markings"
+	taur_tertiary_state = "feline_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/tiger
+	name = "Tiger Body"
+
+	offset_x = -16
+	taur_icon_state = "feline_s"
+	taur_markings_state = "tiger_markings"
+	taur_tertiary_state = "tiger_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/spider
+	name = "Spider Body"
+
+	offset_x = -16
+	taur_icon_state = "spider_s"
 
 	has_taur_color = TRUE
 
@@ -181,5 +285,33 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 	offset_x = -16
 	taur_icon_state = "centipede_s"
 	taur_markings_state = "centipede_markings"
+	taur_tertiary_state = "centipede_markings_2"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/sloog
+	name = "Sloog Body"
+
+	offset_x = -16
+	taur_icon_state = "sloog_s"
+	taur_markings_state = "sloog_markings"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/ant
+	name = "Ant Body"
+
+	offset_x = -16
+	taur_icon_state = "ant_s"
+	taur_markings_state = "ant_markings"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/wasp
+	name = "Wasp Body"
+
+	offset_x = -16
+	taur_icon_state = "wasp_s"
+	taur_markings_state = "wasp_markings"
 
 	has_taur_color = TRUE

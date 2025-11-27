@@ -146,7 +146,10 @@
 
 	allowed_taur_types = list(
 		/obj/item/bodypart/taur/lamia,
-		// /obj/item/bodypart/taur/mermaid, ???
+		/obj/item/bodypart/taur/lamiastriped,
+		/obj/item/bodypart/taur/fatlamia,
+		/obj/item/bodypart/taur/mermaid,
+		/obj/item/bodypart/taur/orca
 	)
 	forced_taur = TRUE
 
