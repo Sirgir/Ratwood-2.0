@@ -135,6 +135,15 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	has_taur_color = TRUE
 
+/obj/item/bodypart/taur/tentacle
+	name = "Tentacles"
+
+	offset_x = -16
+	taur_icon_state = "tentacle_s"
+	taur_markings_state = "tentacle_markings"
+
+	has_taur_color = TRUE
+
 /obj/item/bodypart/taur/otie
 	name = "Otie Body"
 
