@@ -161,7 +161,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/highlight_color = "#FF0000"
 	var/datum/charflaw/charflaw
 	// Multiple vice selection (up to 5, at least 1 required)
-	var/datum/charflaw/vice1
+	var/datum/charflaw/vice1 = /datum/charflaw/addiction/godfearing
 	var/datum/charflaw/vice2
 	var/datum/charflaw/vice3
 	var/datum/charflaw/vice4

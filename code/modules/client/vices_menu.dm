@@ -243,17 +243,17 @@
 					
 					vices_available[vice_name] = vice_type
 				
-					vices_available = sort_list(vices_available)
-					var/choice = tgui_input_list(usr, "Select a vice for slot [slot]:", "Vice Selection", vices_available)
-				
-					if(choice)
-						var/datum/charflaw/selected = vices_available[choice]
-						vars[slot_var] = new selected()
-						to_chat(usr, span_notice("Selected [choice] for vice slot [slot]."))
-						var/datum/charflaw/new_vice = vars[slot_var]
-						if(new_vice.desc)
-							to_chat(usr, "<span class='info'>[new_vice.desc]</span>")
-							save_preferences()
+				vices_available = sort_list(vices_available)
+				var/choice = tgui_input_list(usr, "Select a vice for slot [slot]:", "Vice Selection", vices_available)
+			
+				if(choice)
+					var/datum/charflaw/selected = vices_available[choice]
+					vars[slot_var] = new selected()
+					to_chat(usr, span_notice("Selected [choice] for vice slot [slot]."))
+					var/datum/charflaw/new_vice = vars[slot_var]
+					if(new_vice.desc)
+						to_chat(usr, "<span class='info'>[new_vice.desc]</span>")
+					save_preferences()
 				open_vices_menu(usr)
 			
 			if("clear")
@@ -261,6 +261,6 @@
 					to_chat(usr, span_warning("Vice slot 1 is required and cannot be cleared!"))
 					return
 				
-				vars[slot_var] = null
+				vars[slot_var] = null	
 				save_preferences()
 				open_vices_menu(usr)
