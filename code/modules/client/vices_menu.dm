@@ -145,7 +145,7 @@
 			<div class="header">
 				<h1>⚔ Vice Selection ⚔</h1>
 				<p>Select up to 5 vices (at least 1 required)</p>
-				<p>Vices grant Triumphs but impose character limitations</p>
+				<p>Some vices grant Triumphs but all impose some sort of character limitations</p>
 			</div>
 			
 			<div class="vices-grid">
