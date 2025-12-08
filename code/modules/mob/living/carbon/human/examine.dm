@@ -1045,7 +1045,8 @@
 				descriptors += /datum/mob_descriptor/vagina
 			if(src.getorganslot(ORGAN_SLOT_TESTICLES))
 				descriptors += /datum/mob_descriptor/testicles
-			. += span_info("[t_his] underwear doesn't cover [t_him] from behind.")
+			if(!src.underwear.covers_rear)
+				. += span_info("[t_his] underwear doesn't cover [t_him] from behind.")
 			//male genitalia line
 			var/malegen = build_coalesce_description(descriptors, src, list(MOB_DESCRIPTOR_SLOT_PENIS, MOB_DESCRIPTOR_SLOT_TESTICLES), "%THEY% %DESC1%, and %DESC2%.")
 			if(malegen)

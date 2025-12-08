@@ -59,7 +59,6 @@
 	var/mob/living/carbon/knotted_recipient = null // whom took the knot
 
 	var/bottom_exposed = FALSE
-	var/top_exposed = FALSE
 
 /datum/sex_controller/New(mob/living/carbon/human/owner)
 	user = owner
@@ -106,7 +105,7 @@
 // any new sex commands that target new locations, will need to be added here, and given a unique bitflag define
 /datum/sex_controller/proc/update_all_accessible_body_zones()
 	access_zone_bitfield = SEX_ZONE_NULL
-	if(bottom_exposed == TRUE || get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
+	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_GROIN
 	if(get_location_accessible(user, BODY_ZONE_PRECISE_GROIN, grabs = TRUE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_GROIN_GRAB
@@ -116,7 +115,7 @@
 		access_zone_bitfield |= SEX_ZONE_R_FOOT
 	if(get_location_accessible(user, BODY_ZONE_PRECISE_MOUTH, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_MOUTH
-	if(top_exposed == TRUE || get_location_accessible(user, BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE))
+	if(get_location_accessible(user, BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_CHEST
 	if(get_location_accessible(user, BODY_ZONE_CHEST, grabs = TRUE, skipundies = TRUE))
 		access_zone_bitfield |= SEX_ZONE_CHEST_GRAB
@@ -630,10 +629,8 @@
 	if(user.getorganslot(ORGAN_SLOT_PENIS))
 		dat += " ~|~ <a href='?src=[REF(src)];task=manual_arousal_down'>\<</a> [manual_arousal_name] <a href='?src=[REF(src)];task=manual_arousal_up'>\></a>"
 	dat += "</center><center><a href='?src=[REF(src)];task=toggle_finished'>[do_until_finished ? "UNTIL IM FINISHED" : "UNTIL I STOP"]</a>"
-	if(user.getorganslot(ORGAN_SLOT_BREASTS))
-		dat += "</center><center><a href='?src=[REF(src)];task=toggle_top_exposed'>[top_exposed ? "TOP EXPOSED" : "TOP CONCEALED"]</a> ~|~ <a href='?src=[REF(src)];task=toggle_bottom_exposed'>[bottom_exposed ? "BOTTOM EXPOSED" : "BOTTOM CONCEALED"]</a>"
-	else
-		dat += "</center><center><a href='?src=[REF(src)];task=toggle_bottom_exposed'>[bottom_exposed ? "BOTTOM EXPOSED" : "BOTTOM CONCEALED"]</a>"
+	if(user.getorganslot(ORGAN_SLOT_PENIS))
+		dat += "</center><center><a href='?src=[REF(src)];task=toggle_bottom_exposed'>[bottom_exposed ? "PINTLE EXPOSED" : "PINTLE CONCEALED"]</a>"
 	if(current_action && !desire_stop)
 		var/datum/sex_action/action = SEX_ACTION(current_action)
 		if(action.knot_on_finish && knot_penis_type())
@@ -710,8 +707,6 @@
 			adjust_arousal_manual(-1)
 		if("toggle_finished")
 			do_until_finished = !do_until_finished
-		if("toggle_top_exposed")
-			top_exposed = !top_exposed
 			update_exposure()
 		if("toggle_bottom_exposed")
 			bottom_exposed = !bottom_exposed
