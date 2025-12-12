@@ -19,7 +19,6 @@
 		"NOC SEES ALL!",
 		"I SEEK THE MYSTERIES OF THE MOON!",
 	)
-	traits_tier = list(TRAIT_DARKVISION = CLERIC_T1)
 	storyteller = /datum/storyteller/noc
 
 // In moonlight, church, cross, or ritual chalk
