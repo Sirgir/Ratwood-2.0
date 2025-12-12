@@ -1170,7 +1170,13 @@
 /obj/structure/fluff/walldeco/customflag/rockhill{
 	pixel_y = 32
 	},
-/turf/closed/wall/mineral/rogue/stone/moss,
+/obj/structure/mineral_door/wood/donjon{
+	locked = 1;
+	lockid = "walls";
+	name = "Gatehouse";
+	dir = 4
+	},
+/turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
 "aue" = (
 /obj/structure/fluff/railing/border{
@@ -361132,7 +361138,7 @@ aOv
 yht
 fnA
 fnA
-fUg
+esR
 wbg
 wbg
 wVI
@@ -361563,7 +361569,7 @@ xre
 xre
 aOv
 vbM
-evo
+xFN
 pZg
 hsC
 pZg
@@ -367626,9 +367632,9 @@ yht
 yht
 vbM
 bQs
-vjt
-bQs
-vjt
+pMD
+xFN
+pMD
 vbM
 nrV
 nrV
@@ -369353,10 +369359,10 @@ kjQ
 yht
 yht
 vbM
+xFN
+pMD
 bQs
-vjt
-bQs
-vjt
+pMD
 vbM
 nrV
 nrV
