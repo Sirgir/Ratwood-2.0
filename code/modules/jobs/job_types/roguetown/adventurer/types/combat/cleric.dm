@@ -31,7 +31,7 @@
 	)
 	extra_context = "This subclass can choose from multiple disciplines. \
 	The further your chosen discipline strays from unarmed combat, however, the greater your skills in fistfighting and wrestling will atrophy. \
-	Taking a Quarterstaff removes your speed bonus in exchange for strength, providing 'Critical Resistance' and removing the 'Expert Dodger' trait."
+	Your vow determines your overall speed, strength and provided trait for dodge expert or critical resistance."
 
 /datum/outfit/job/roguetown/adventurer/cleric
 	allowed_patrons = ALL_PATRONS
