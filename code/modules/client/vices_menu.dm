@@ -225,6 +225,11 @@
 
 	return FALSE
 
+// Global cache for loadout item icons to prevent memory leaks
+GLOBAL_LIST_EMPTY(cached_loadout_icons)
+// Maximum cache size to prevent unbounded growth (200 is enough for ~100-150 unique items)
+#define MAX_ICON_CACHE_SIZE 200
+
 /datum/preferences/proc/open_vices_menu(mob/user)
 	if(!user || !user.client)
 		return
@@ -755,9 +760,15 @@
 			html += "<div style='display: flex; align-items: center; margin-bottom: 6px;'>"
 			html += "<div style='width: 48px; height: 48px; background: rgba(0,0,0,0.6); border: 1px solid #444; margin-right: 8px; display: flex; align-items: center; justify-content: center;'>"
 			
-			// Use the item's icon
+			// Use the item's icon with caching
 			if(icon_file && icon_state)
-				user << browse_rsc(icon(icon_file, icon_state), "loadout_icon_[i].png")
+				var/cache_key = "[icon_file]_[icon_state]"
+				if(!(cache_key in GLOB.cached_loadout_icons))
+					// Prevent cache from growing too large
+					if(GLOB.cached_loadout_icons.len >= MAX_ICON_CACHE_SIZE)
+						GLOB.cached_loadout_icons.Cut(1, 50) // Remove oldest 50 entries
+					GLOB.cached_loadout_icons[cache_key] = icon(icon_file, icon_state)
+				user << browse_rsc(GLOB.cached_loadout_icons[cache_key], "loadout_icon_[i].png")
 				html += "<img src='loadout_icon_[i].png' style='max-width: 46px; max-height: 46px;' />"
 			
 			html += "</div>"
@@ -1271,16 +1282,18 @@
 					
 					icon_counter++
 					
-					// Get item icon
+					// Get item icon with caching
 					var/obj/item/sample = item.path
 					var/icon_file = initial(sample.icon)
 					var/icon_state_name = initial(sample.icon_state)
 					
-					// Send icon resource
+					// Send icon resource using cache
 					if(icon_file && icon_state_name)
-						usr << browse_rsc(icon(icon_file, icon_state_name), "loadout_select_[icon_counter].png")
-					
-					// Show point cost in name
+						var/cache_key = "[icon_file]_[icon_state_name]"
+						if(!(cache_key in GLOB.cached_loadout_icons))
+						// Prevent cache from growing too large
+						if(GLOB.cached_loadout_icons.len >= MAX_ICON_CACHE_SIZE)
+							GLOB.cached_loadout_icons.Cut(1, 50) // Remove oldest 50 entries
 					var/display_name = item.name
 					var/cost_text = ""
 					if(item.triumph_cost)
