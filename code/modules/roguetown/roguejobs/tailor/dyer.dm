@@ -150,7 +150,7 @@ var/global/list/pridelist = list(
 		dat += "<A href='?src=\ref[src];paint_altdetail=1'>Apply new color</A> | "
 		dat += "<A href='?src=\ref[src];clear_altdetail=1'>Remove paintjob</A><BR><BR>"
 
-	dat += "<A href='?src=\ref[src];eject=1'>Eject item.</A><BR><BR>"
+
 	menu.set_content("<html>[dat.Join("")]</html>")
 	menu.open()
 
@@ -177,13 +177,13 @@ var/global/list/pridelist = list(
 				activecolor = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor, 0.2, 1), 6, TRUE)
 				if(activecolor == "#000000")
 					activecolor = "#FFFFFF"
-			updateUsrDialog()
+			interact(usr)
 		else
 			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
 			activecolor = colorlist[choice]
-			updateUsrDialog()
+			interact(usr)
 
 	if(href_list["select_detail"])
 		if(HAS_TRAIT(usr, TRAIT_DYES))
@@ -197,13 +197,13 @@ var/global/list/pridelist = list(
 				activecolor_detail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_detail, 0.2, 1), 6, TRUE)
 				if(activecolor_detail == "#000000")
 					activecolor_detail = "#FFFFFF"
-			updateUsrDialog()
+			interact(usr)
 		else
 			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
 			activecolor_detail = colorlist[choice]
-			updateUsrDialog()
+			interact(usr)
 
 	if(href_list["select_altdetail"])
 		if(HAS_TRAIT(usr, TRAIT_DYES))
@@ -217,20 +217,22 @@ var/global/list/pridelist = list(
 				activecolor_altdetail = sanitize_hexcolor(color_pick_sanitized(usr, "Choose your dye:", "Dyes", choice ? choice : activecolor_altdetail, 0.2, 1), 6, TRUE)
 				if(activecolor_altdetail == "#000000")
 					activecolor_altdetail = "#FFFFFF"
-			updateUsrDialog()
+			interact(usr)
 		else
 			var/choice = input(usr,"Choose your dye:","Dyes",null) as null|anything in colorlist
 			if(!choice)
 				return
 			activecolor_altdetail = colorlist[choice]
-			updateUsrDialog()
+			interact(usr)
 
 	if(href_list["paint"])
 		if(!inserted)
 			return
 		inserted.add_atom_colour(activecolor, FIXED_COLOUR_PRIORITY)
 		playsound(src, "bubbles", 50, 1)
-		updateUsrDialog()
+		inserted.forceMove(drop_location())
+		inserted = null
+		interact(usr)
 
 	if(href_list["paint_detail"])
 		if(!inserted)
@@ -241,7 +243,9 @@ var/global/list/pridelist = list(
 		if(inserted_item in GLOB.lordcolor) //Prevent a latejoining duke from changing this color
 			GLOB.lordcolor -= inserted_item
 		playsound(src, "bubbles", 50, 1)
-		updateUsrDialog()
+		inserted.forceMove(drop_location())
+		inserted = null
+		interact(usr)
 
 	if(href_list["paint_altdetail"])
 		if(!inserted)
@@ -252,14 +256,18 @@ var/global/list/pridelist = list(
 		if(inserted_item in GLOB.lordcolor)
 			GLOB.lordcolor -= inserted_item
 		playsound(src, "bubbles", 50, 1)
-		updateUsrDialog()
+		inserted.forceMove(drop_location())
+		inserted = null
+		interact(usr)
 
 	if(href_list["clear"])
 		if(!inserted)
 			return
 		inserted.remove_atom_colour(FIXED_COLOUR_PRIORITY)
 		playsound(src, "bubbles", 50, 1)
-		updateUsrDialog()
+		inserted.forceMove(drop_location())
+		inserted = null
+		interact(usr)
 
 	if(href_list["clear_detail"])
 		if(!inserted)
@@ -268,7 +276,9 @@ var/global/list/pridelist = list(
 		inserted_item.detail_color = "#FFFFFF" //We don't initial() this in case it goes null
 		inserted_item.update_icon()
 		playsound(src, "bubbles", 50, 1)
-		updateUsrDialog()
+		inserted.forceMove(drop_location())
+		inserted = null
+		interact(usr)
 
 	if(href_list["clear_altdetail"])
 		if(!inserted)
@@ -277,14 +287,9 @@ var/global/list/pridelist = list(
 		inserted_item.altdetail_color = "#FFFFFF"
 		inserted_item.update_icon()
 		playsound(src, "bubbles", 50, 1)
-		updateUsrDialog()
-
-	if(href_list["eject"])
-		if(!inserted)
-			return
 		inserted.forceMove(drop_location())
 		inserted = null
-		updateUsrDialog()
+		interact(usr)
 
 
 // PAINTBRUSH

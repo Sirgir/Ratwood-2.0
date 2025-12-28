@@ -25,7 +25,6 @@ GLOBAL_VAR(lordsecondary)
 	var/choice = input(src, "Choose a Primary Color", "ROGUETOWN") as anything in colorlist
 	if(choice)
 		prim = colorlist[choice]
-		colorlist -= choice
 	choice = input(src, "Choose a Secondary Color", "ROGUETOWN") as anything in colorlist
 	if(choice)
 		sec = colorlist[choice]
@@ -36,10 +35,8 @@ GLOBAL_VAR(lordsecondary)
 	GLOB.lordsecondary = sec
 	for(var/obj/O in GLOB.lordcolor)
 		O.lordcolor(prim,sec)
-		GLOB.lordcolor -= O
 	for(var/turf/T in GLOB.lordcolor)
 		T.lordcolor(prim,sec)
-		GLOB.lordcolor -= T
 
 /proc/lord_color_default()
 	GLOB.lordprimary = "#264d26" //DARK GREEN
