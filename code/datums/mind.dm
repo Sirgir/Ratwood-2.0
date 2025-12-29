@@ -982,8 +982,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 								
 								// Check if the item has any non-zero armor values
 								if(C.armor)
-									for(var/armor_type in C.armor)
-										if(C.armor[armor_type] > 0)
+									var/list/check_armor = C.armor.getList()
+									for(var/armor_type in check_armor)
+										if(check_armor[armor_type] > 0)
 											has_armor = TRUE
 											break
 								
