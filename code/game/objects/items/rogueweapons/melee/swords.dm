@@ -145,6 +145,7 @@
 
 /datum/intent/rend/krieg/short
 	damfactor = 1.8
+	swingdelay = 2
 
 //sword objs ฅ^•ﻌ•^ฅ
 
