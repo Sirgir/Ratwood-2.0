@@ -226,8 +226,6 @@
 
 // Global cache for loadout item icons to prevent memory leaks
 GLOBAL_LIST_EMPTY(cached_loadout_icons)
-// Maximum cache size to prevent unbounded growth (200 is enough for ~100-150 unique items)
-#define MAX_ICON_CACHE_SIZE 200
 
 /datum/preferences/proc/save_to_history()
 	// Initialize history list if null
