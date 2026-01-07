@@ -1844,6 +1844,12 @@
 	first_time_text = "Wretched Grotto";
 	name = "Wretched Grotto"
 	})
+"hp" = (
+/obj/structure/ritualcircle/necra{
+	icon_state = "necra_active"
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/deathsedge)
 "hq" = (
 /obj/structure/mineral_door/bars{
 	lockid = "inhumen"
@@ -25771,7 +25777,7 @@ Kt
 fz
 zT
 fz
-fz
+hp
 fz
 Ey
 MC

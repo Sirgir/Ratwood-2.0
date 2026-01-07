@@ -15042,6 +15042,7 @@
 /area/rogue/indoors/town/dwarfin/rockhill)
 "eCg" = (
 /mob/living/simple_animal/hostile/rogue/skeleton/axe,
+/obj/effect/landmark/quest_spawner/hard,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet)
 "eCi" = (
@@ -22875,6 +22876,10 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/tile/checkeralt,
 /area/rogue/indoors/town)
+"gSD" = (
+/obj/effect/landmark/quest_spawner/medium,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/woodsrat/north)
 "gSE" = (
 /obj/structure/fluff/railing/corner,
 /obj/item/natural/bone,
@@ -30291,10 +30296,6 @@
 /obj/structure/fluff/walldeco/artificerflag,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/dwarfin/rockhill)
-"jgq" = (
-/obj/effect/landmark/quest_spawner/medium,
-/turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/church/chapel)
 "jgv" = (
 /obj/structure/mineral_door/wood/towner/miner,
 /turf/open/floor/rogue/ruinedwood,
@@ -38523,10 +38524,6 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/bograt/west)
-"lNq" = (
-/obj/effect/landmark/quest_spawner/hard,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/woodsrat/north)
 "lNC" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -364206,7 +364203,7 @@ oqx
 lkU
 oqx
 oqx
-lNq
+oqx
 oqx
 lkU
 lkU
@@ -364652,7 +364649,7 @@ sHq
 rrQ
 rrQ
 rrQ
-jgq
+rrQ
 rrQ
 nGH
 lxr
@@ -371549,7 +371546,7 @@ lkU
 oqx
 oqx
 oqx
-oqx
+gSD
 oqx
 bef
 lkU
