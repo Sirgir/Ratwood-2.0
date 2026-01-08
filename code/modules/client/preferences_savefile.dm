@@ -423,7 +423,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		charflaw = GLOB.character_flaws[charflaw]
 		charflaw = new charflaw()
 	
-	// Load new vice system
+	// Load new vice system - ALWAYS reset to null first to prevent carryover
+	vice1 = null
+	vice2 = null
+	vice3 = null
+	vice4 = null
+	vice5 = null
+	
 	var/vice1_type, vice2_type, vice3_type, vice4_type, vice5_type
 	S["vice1"] >> vice1_type
 	S["vice2"] >> vice2_type
@@ -431,32 +437,21 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["vice4"] >> vice4_type
 	S["vice5"] >> vice5_type
 	
-	// Explicitly set each vice slot - null if not in savefile
-	// This prevents vices from persisting between character slots
-	if(vice1_type)
+	// Only instantiate if type path exists in savefile
+	if(vice1_type && ispath(vice1_type))
 		vice1 = new vice1_type()
-	else
-		vice1 = null
 		
-	if(vice2_type)
+	if(vice2_type && ispath(vice2_type))
 		vice2 = new vice2_type()
-	else
-		vice2 = null
 		
-	if(vice3_type)
+	if(vice3_type && ispath(vice3_type))
 		vice3 = new vice3_type()
-	else
-		vice3 = null
 		
-	if(vice4_type)
+	if(vice4_type && ispath(vice4_type))
 		vice4 = new vice4_type()
-	else
-		vice4 = null
 		
-	if(vice5_type)
+	if(vice5_type && ispath(vice5_type))
 		vice5 = new vice5_type()
-	else
-		vice5 = null
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	var/list/loaded_culinary_preferences
@@ -478,17 +473,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		//statpack = new statpack
 
 /datum/preferences/proc/_load_virtue(S)
+	// Always reset virtues to null first to prevent carryover
+	virtue = null
+	virtuetwo = null
+	
 	var/virtue_type
 	var/virtuetwo_type
 	S["virtue"] >> virtue_type
 	S["virtuetwo"] >> virtuetwo_type
-	if (virtue_type)
+	
+	// Only instantiate if valid type path exists, otherwise use none
+	if (virtue_type && ispath(virtue_type))
 		virtue = new virtue_type()
 	else
 		virtue = new /datum/virtue/none
 
-	if( virtuetwo_type)
-		virtuetwo = new virtuetwo_type
+	if(virtuetwo_type && ispath(virtuetwo_type))
+		virtuetwo = new virtuetwo_type()
 	else
 		virtuetwo = new /datum/virtue/none
 
@@ -1012,11 +1013,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	// Organs
 	WRITE_FILE(S["customizer_entries"] , customizer_entries)
-	// Body markings
-	WRITE_FILE(S["body_markings"] , body_markings)
-	// Descriptor entries
-	WRITE_FILE(S["descriptor_entries"] , descriptor_entries)
-	WRITE_FILE(S["custom_descriptors"] , custom_descriptors)
+	// Body markings and descriptors already saved earlier to prevent corruption
 
 	//Barks
 	WRITE_FILE(S["bark_id"]					, bark_id)
@@ -1039,8 +1036,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["pronouns"] , pronouns)
 	WRITE_FILE(S["statpack"] , statpack?.type)
-	WRITE_FILE(S["virtue"] , virtue?.type)
-	WRITE_FILE(S["virtuetwo"], virtuetwo?.type)
+	// Save virtues with explicit null-safety
+	if(virtue && virtue.type)
+		WRITE_FILE(S["virtue"] , virtue.type)
+	else
+		WRITE_FILE(S["virtue"] , /datum/virtue/none)
+	if(virtuetwo && virtuetwo.type)
+		WRITE_FILE(S["virtuetwo"], virtuetwo.type)
+	else
+		WRITE_FILE(S["virtuetwo"], /datum/virtue/none)
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])

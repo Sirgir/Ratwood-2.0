@@ -1557,7 +1557,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 		
 		temp_loadout_selection = null
 		usr << browse(null, "window=loadout_select")
-		save_character()
 		open_vices_menu(usr)
 		return
 	
@@ -1573,21 +1572,18 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 			if("save")
 				if(save_preset(slot))
 					to_chat(usr, span_notice("Saved current setup to Preset [slot]!"))
-					save_character()
 					open_vices_menu(usr)
 				else
 					to_chat(usr, span_warning("Failed to save preset."))
 			if("load")
 				if(load_preset(slot))
 					to_chat(usr, span_notice("Loaded Preset [slot]!"))
-					save_character()
 					open_vices_menu(usr)
 				else
 					to_chat(usr, span_warning("Preset [slot] is empty or invalid."))
 			if("clear")
 				if(clear_preset(slot))
 					to_chat(usr, span_notice("Cleared Preset [slot]."))
-					save_character()
 					open_vices_menu(usr)
 				else
 					to_chat(usr, span_warning("Failed to clear preset."))
@@ -1598,7 +1594,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 		if(href_list["undo_action"] == "undo")
 			if(undo_last_change())
 				to_chat(usr, span_notice("Undid last change."))
-				save_character()
 				open_vices_menu(usr)
 			else
 				to_chat(usr, span_warning("No more changes to undo!"))
@@ -1625,7 +1620,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 				virtue = selected
 				to_chat(usr, span_notice("Selected [choice] as primary virtue."))
 				to_chat(usr, "<span class='info'>[selected.desc]</span>")
-				save_character()
 				open_vices_menu(usr)
 			return
 		
@@ -1666,7 +1660,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 				virtuetwo = selected
 				to_chat(usr, span_notice("Selected [choice] as second virtue."))
 				to_chat(usr, "<span class='info'>[selected.desc]</span>")
-				save_character()
 				open_vices_menu(usr)
 			return
 	
@@ -1703,7 +1696,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 				else
 					virtuetwo = GLOB.virtues[/datum/virtue/none]
 				
-				save_character()
 				open_vices_menu(usr)
 			return
 	
@@ -1771,7 +1763,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 					to_chat(usr, span_notice("Selected [choice] for vice slot [slot]."))
 					if(new_vice.desc)
 						to_chat(usr, "<span class='info'>[new_vice.desc]</span>")
-					save_character()
 					open_vices_menu(usr)
 			
 			if("clear")
@@ -1789,7 +1780,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 					if(H.real_name == real_name)
 						to_chat(usr, span_notice("Vice changes saved. They will apply next time you spawn."))
 				
-				save_character()
 				open_vices_menu(usr)
 	
 	if(href_list["loadout_action"])
@@ -2013,7 +2003,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 				vars["loadout_[slot]_name"] = null
 				vars["loadout_[slot]_desc"] = null
 				vars["loadout_[slot]_hex"] = null
-				save_character()
 				open_vices_menu(usr)
 				return
 			
@@ -2026,7 +2015,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 				
 				if(new_name != null) // Allow empty string to clear
 					vars["loadout_[slot]_name"] = new_name
-					save_character()
 					open_vices_menu(usr)
 				return
 			
@@ -2039,7 +2027,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 				
 				if(new_desc != null) // Allow empty string to clear
 					vars["loadout_[slot]_desc"] = new_desc
-					save_character()
 					open_vices_menu(usr)
 				return
 			
@@ -2060,7 +2047,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 						vars["loadout_[slot]_hex"] = null
 					else
 						vars["loadout_[slot]_hex"] = new_color
-					save_character()
 					open_vices_menu(usr)
 				return
 	
@@ -2103,7 +2089,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 					extra_language = "None"
 				else
 					extra_language = choices[chosen_language]
-				save_character()
 			open_vices_menu(usr)
 			return
 		
@@ -2119,7 +2104,6 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 			if("clear")
 				vars[slot_var] = "None"
 				to_chat(usr, span_notice("Cleared language slot [slot]."))
-				save_character()
 				open_vices_menu(usr)
 			if("select", "change")
 				// Show language selection menu
@@ -2181,7 +2165,4 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 							return
 						vars[slot_var] = language_path
 						to_chat(usr, span_notice("Selected [chosen_language] for language slot [slot] ([slot_cost] Triumphs)."))
-					save_character()
-				open_vices_menu(usr)
-				save_character()
 				open_vices_menu(usr)
