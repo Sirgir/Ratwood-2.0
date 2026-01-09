@@ -74,7 +74,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 	)
-	adv_stat_ceiling = list(STAT_STRENGTH = 16, STAT_CONSTITUTION = 16, STAT_WILLPOWER = 16)
 
 /datum/outfit/job/roguetown/dungeoneer/base/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -89,7 +88,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltr = /obj/item/rogueweapon/whip/antique
-	beltl = /obj/item/storage/keyring/dungeoneer
+	beltl = /obj/item/keyring/dungeoneer
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/scomstone/bad/garrison
 	backpack_contents = list(
