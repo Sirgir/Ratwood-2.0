@@ -62,6 +62,11 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	if(!winexists(src, "lobby_window"))
 		open_lobby()  // creates window + browser control
 		sleep(0)
+	var/lobby_visible = winget(src, "lobby_window", "is-visible")
+	if(lobby_visible == "false") // winget returns a string...
+		src << browse(null, "window=lobby_window")
+		open_lobby()
+		sleep(0)
 
 	// UPDATE TIMER -- Script in html\lobby\lobby.html / .js
 	var/timer_text
@@ -177,10 +182,6 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 /mob/dead/new_player/proc/open_lobby()
 	if (!client)
 		return
-
-	if (winexists(src, "lobby_window"))
-		return
-
 	src << browse(
 		file("html/lobby/lobby.html"),
 		"window=lobby_window;size=330x430"
