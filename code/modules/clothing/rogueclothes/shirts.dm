@@ -674,6 +674,7 @@
 	icon_state = "maiddress"
 	item_state = "maiddress"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	detail_tag = "_detail"
 	detail_color = CLOTHING_BLACK
 
@@ -684,6 +685,7 @@
 	icon_state = "maidgown"
 	item_state = "maidgown"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	detail_color = CLOTHING_BLACK
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
@@ -693,7 +695,7 @@
 	item_state = "butlershirt"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_maids.dmi'
-	slot_flags = ITEM_SLOT_SHIRT
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 //End Servant Clothing
 
