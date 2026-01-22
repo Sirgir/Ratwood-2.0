@@ -87,6 +87,7 @@
 		STATKEY_WIL = 3,
 		STATKEY_CON = 3,
 		STATKEY_PER = 1,
+		STATKEY_SPD = -1,
 	)
 	subclass_skills = list(
 		/datum/skill/misc/swimming= SKILL_LEVEL_APPRENTICE,
@@ -148,7 +149,7 @@
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 1,
 	)
-	subclass_stats = list(
+	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -169,12 +170,12 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	cloak = /obj/item/clothing/cloak/stabard/surcoat
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	gloves = /obj/item/clothing/gloves/roguetown/otavan
-	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/quiver/bolts
@@ -196,30 +197,27 @@
 	advclass_cat_rolls = list(CTAG_OTAVAN_PREACHER = 20)
 
 /datum/advclass/otavan_preacher
-	name = "Psydonite Preacher"		//Basically a middle ground between a disciple and an adventurer monk. Staves and preaching
+	name = "Psydonite Preacher"		//Basically a middle ground between a disciple and an adventurer monk. Staves and preaching!
 	outfit = /datum/outfit/job/roguetown/otavan/preacher
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_STEELHEARTED, TRAIT_SILVER_BLESSED, TRAIT_OUTLANDER)
 	category_tags = list(CTAG_OTAVAN_PREACHER)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_PER = 1,
-		STATKEY_INT = 1,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 3,
 		STATKEY_SPD = -2,
 	)
-	subclass_stats = list(
+	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,		//everybody was kung-fu fighting
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,		//no powergaming. Staves or bust.
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
-		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 	)
 
