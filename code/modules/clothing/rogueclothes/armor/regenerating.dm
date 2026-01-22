@@ -108,10 +108,11 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/weak
 	name = "tough skin"
-	desc = "My skin has always been tough enough to stop most cuts and bruises."
+	desc = "My skin has always been tough enough to stop most cuts and bruises, with time it will mend."
 	armor = list("blunt" = 30, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0)
 	max_integrity = 300
 	repair_time = 20 SECONDS
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
+	var/bypass_nudist = TRUE
 
