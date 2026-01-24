@@ -17,7 +17,6 @@
 			return
 	..()
 
-
 /obj/item/natural/dirtclod/Moved(oldLoc, dir)
 	if(QDELETED(src))
 		return
@@ -38,7 +37,6 @@
 				qdel(I)
 			qdel(src)
 			new /obj/structure/fluff/clodpile(T)
-
 
 /obj/item/natural/dirtclod/attack_self(mob/living/user)
 	user.visible_message(span_warning("[user] scatters [src]."))
