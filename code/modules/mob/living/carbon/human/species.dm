@@ -688,7 +688,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(SLOT_ARMOR)
 			if(H.wear_armor)
 				return FALSE
-			if(is_nudist && !I:bypass_nudist)
+			if(is_nudist)
 				return FALSE
 			if(I.blocking_behavior & BULKYBLOCKS)
 				if(H.cloak)
@@ -773,7 +773,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		if(SLOT_SHIRT)
 			if(H.wear_shirt)
 				return FALSE
-			if(is_nudist && !I:bypass_nudist)
+			if(is_nudist)
 				return FALSE
 			if(I.blocking_behavior & BULKYBLOCKS)
 				if(H.cloak)

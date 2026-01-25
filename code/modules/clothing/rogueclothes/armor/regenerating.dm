@@ -114,5 +114,4 @@
 	repair_time = 20 SECONDS
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
-	var/bypass_nudist = TRUE
 
