@@ -200,21 +200,23 @@
 	var/profession_sets = list(
 		"Physiker Set" = list(
 			/obj/item/bedroll,
-			/obj/item/storage/belt/rogue/surgery_bag/empty, // Get your own tools.
+			/obj/item/rogueweapon/huntingknife/scissors,
+			/obj/item/storage/belt/rogue/surgery_bag/full,
 			/obj/item/storage/belt/rogue/pouch/medicine,
+			/obj/effect/proc_holder/spell/invoked/diagnose/secular,
 			/obj/item/storage/magebag/alchemist,
-			/obj/item/rogueweapon/surgery/hammer // They don't get the special examination spell anymore.
+			/obj/item/folding_table_stored
 		),
 		"Provider Set" = list(
 			/obj/item/storage/roguebag/food,
-			/obj/item/contraption/folding_table_stored,
+			/obj/item/folding_table_stored,
 			/obj/item/storage/meatbag,
 			/obj/item/millstone,
 			/obj/item/rogueweapon/hoe
 		),
 		"Prospector Set" = list(
 			/obj/item/rogueweapon/hammer/steel,
-			/obj/item/contraption/folding_table_stored,
+			/obj/item/folding_table_stored,
 			/obj/item/lockpickring/mundane,
 			/obj/item/rogueweapon/pick,
 			/obj/item/rogueweapon/huntingknife/scissors,
