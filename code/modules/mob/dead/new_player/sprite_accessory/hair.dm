@@ -1619,7 +1619,7 @@
 	icon_state = "sandcrop"
 
 /datum/sprite_accessory/hair/head/steward
-	name = "Steward	"
+	name = "Steward"
 	icon_state = "steward"
 
 /datum/sprite_accessory/hair/head/zaladin
