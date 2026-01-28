@@ -269,6 +269,7 @@
 		/datum/sprite_accessory/hair/head/halfshave_messy,
 		/datum/sprite_accessory/hair/head/halfshave_messy_alt,
 		/datum/sprite_accessory/hair/head/halfshave_messylong,
+		/datum/sprite_accessory/hair/head/halfshave_messylong_alt,
 		/datum/sprite_accessory/hair/head/hairfre,
 		/datum/sprite_accessory/hair/head/hedgehog,
 		/datum/sprite_accessory/hair/head/heiress,
