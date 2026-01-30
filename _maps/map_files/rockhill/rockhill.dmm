@@ -57013,7 +57013,7 @@
 	lockid = "tavern";
 	name = "Tavern Cellar"
 	},
-/turf/open/floor/rogue/cobblerock,
+/turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/tavern)
 "rwT" = (
 /turf/closed/wall/mineral/rogue/roofwall/middle{
@@ -72472,6 +72472,10 @@
 "wpJ" = (
 /turf/closed/wall/mineral/rogue/stone/window/blue_moss,
 /area/rogue/under/cavewet/wizarddungeon)
+"wpX" = (
+/obj/structure/fermentation_keg/distiller,
+/turf/open/floor/rogue/concrete,
+/area/rogue/under/town/basement/tavern)
 "wqa" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woodsrat/above)
@@ -76940,7 +76944,7 @@
 	dir = 1
 	},
 /obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/woodturned,
+/turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/tavern)
 "xKd" = (
 /obj/structure/table/wood/large_table/south_west,
@@ -136229,7 +136233,7 @@ whb
 whb
 whb
 xeg
-sFx
+wpX
 sFx
 sFx
 tCN
