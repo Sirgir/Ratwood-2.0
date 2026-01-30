@@ -587,10 +587,12 @@
 	hammers_per_item = 5
 	skill_level = 5
 
-/datum/anvil_recipe/engineering/bronze/smokebomb
-	name = "gas belcher shells (x3) (+Cog)"
-	req_bar = /obj/item/ingot/bronze
-	created_item = /obj/item/smokeshell
+/datum/artificer_recipe/general/smokebomb
+	name = "Gas belcher shells (x3) (+Cog)"
+	required_item = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear)
-	createditem_num = 3
-	craftdiff = 3
+	created_item = list(/obj/item/smokeshell,
+						/obj/item/smokeshell,
+						/obj/item/smokeshell)
+	skill_level = 3
+	hammers_per_item = 5
