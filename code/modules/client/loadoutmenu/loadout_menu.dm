@@ -32,9 +32,6 @@
 
 	for(var/datum/loadout_item/item as anything in GLOB.loadout_items)
 		var/obj/item/I = item.path
-		if(!I)
-			testing("loadout menu: unable to find item with path: [item.path]")
-			continue
 		var/donoritem_passed = TRUE // This isn't checking if it is a donor item.
 		var/noble_passed = item.nobility_check(user.client)
 		if(item.donoritem)
