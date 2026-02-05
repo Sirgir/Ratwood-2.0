@@ -68,7 +68,7 @@
 	if (istype(A, /area/rogue/indoors/deathsedge))	//Stops rotting inside Death's Edge (Death's Door spell area)
 		return
 
-	if(HAS_TRAIT(C, TRAIT_ZOMBIE_IMMUNE) && !is_zombie)
+	if(!isconstruct && !is_zombie)
 		return
 
 	if(!(C.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
