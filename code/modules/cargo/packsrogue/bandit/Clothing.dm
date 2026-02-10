@@ -38,6 +38,18 @@
 	cost = 5
 	contains = list(/obj/item/clothing/head/roguetown/fancyhat)
 
-/obj/item/clothing/head/roguetown/hatfur
-/obj/item/clothing/head/roguetown/chaperon
-/obj/item/clothing/head/roguetown/papakha
+/datum/supply_pack/rogue/Clothing/furhat
+	name = "Fur Hat"
+	cost = 5
+	contains = list(/obj/item/clothing/head/roguetown/hatfur)
+
+/datum/supply_pack/rogue/Clothing/chaperon
+	name = "Chaperon"
+	cost = 5
+	contains = list(/obj/item/clothing/head/roguetown/chaperon)
+
+/datum/supply_pack/rogue/Clothing/papakha
+	name = "Papakha"
+	cost = 5
+	contains = list(/obj/item/clothing/head/roguetown/papakha)
+
