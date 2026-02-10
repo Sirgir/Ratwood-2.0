@@ -1,6 +1,3 @@
-/datum/voicepack/female/dainty
-	preview = list("cry", "huh", "giggle", "laugh", "chuckle", "sigh", "hmm", "gasp", "scream", "pain", "painmoan", "paincrit", "shh")
-
 /datum/voicepack/female/dainty/get_sound(soundin, modifiers)
 	var/used
 	switch(soundin)
