@@ -2,7 +2,7 @@
 Firstly, the coordinates device. Eventually, I'll add free aim. But for now...
 */
 /obj/item/rogueweapon/palantir
-	name = "Palantir"
+	name = "\improper palantir"
 	desc = "An arcyne compass, runed and imbued with energy. \
 	That is, of course, to say that this is able to detect leyline intersection points. Or LIPs, for short. \
 	An incredibly expensive device, likely pried from one of the Queen's own magicians."
@@ -14,11 +14,16 @@ Firstly, the coordinates device. Eventually, I'll add free aim. But for now...
 	possible_item_intents = list(INTENT_GENERIC)
 	var/last_x = "UNKNOWN"
 	var/last_y = "UNKNOWN"
+	var/last_z = "UNKNOWN"
 
 /obj/item/rogueweapon/palantir/examine(mob/user)
 	. = ..()
-	. += "<small>Last 'X-LIP' recorded: <span class='warning'>[last_x]</span> <br>\
-		Last 'Y-LIP' recorded: <span class='warning'>[last_y]</span></small>"
+	if(HAS_TRAIT(user, TRAIT_FUSILIER))
+		. += "<small>Last 'X-LIP' recorded: <span class='warning'>[last_x]</span> <br>\
+			Last 'Y-LIP' recorded: <span class='warning'>[last_y]</span> <br>\
+			Last 'Z-LIP' recorded: <span class='warning'>[last_z]</span></small>"
+	else
+		. += "<small>As expected, you've no understanding of the smaller details. Someone trained with smokepowder might know...</small>"
 
 /obj/item/rogueweapon/palantir/afterattack(atom/A, mob/living/user, adjacent, params) //handles coord obtaining
 	if(!HAS_TRAIT(user, TRAIT_FUSILIER))
@@ -30,9 +35,11 @@ Firstly, the coordinates device. Eventually, I'll add free aim. But for now...
 		A = get_turf(A)
 		last_x = obfuscate_x(A.x)
 		last_y = obfuscate_y(A.y)
+		last_z = A.z
 		to_chat(user, "INTERSECTION POINT OF TARGET <br>\
 		<small>X-LIP: <span class='warning'>[last_x]</span> <br>\
-		Y-LIP: <span class='warning'>[last_y]</span></small>")
+		Y-LIP: <span class='warning'>[last_y]</span> <br>\
+		Z-LIP: <span class='warning'>[last_z]</span></small>")
 	else
 		to_chat(user, "<span class='warning'>You must remain still!</span>")
 

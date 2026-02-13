@@ -29,11 +29,11 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 	icon_state = "temp_bombard"
 	anchored = 1
 	density = 1
-	var/xinput
-	var/yinput
-	var/xdial
-	var/ydial
-	var/zdial
+	var/xinput = 0
+	var/yinput = 0
+	var/xdial = 0
+	var/ydial = 0
+	var/zdial = 0
 	var/xoffset = 0
 	var/yoffset = 0
 	var/offset_per_turfs = 20 //Number of turfs to offset from target by 1
@@ -43,8 +43,11 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 	var/travel_time = 45
 	var/powder = FALSE
 	var/rammed = FALSE
-	var/heavy = FALSE//Can this fire anywhere, as opposed to exclusively within 82 tiles?
-	var/free_aimed = FALSE//Is this using coordinates? By default, we do.
+	var/heavy = FALSE//Can this fire anywhere, as opposed to exclusively within 124 tiles?
+
+/obj/structure/bombard/Initialize()
+	. = ..()
+	zdial = src.z
 
 /obj/structure/bombard/examine(mob/user)
 	. = ..()//Below displays deobfuscated coords. Is that a good idea? No. But it works. Also lets you math things out easier I guess.
@@ -55,7 +58,7 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 			'X-LIP' Adjustment: <span class='warning'>[xdial]</span> <br>\
 			'Y-LIP' Adjustment: <span class='warning'>[ydial]</span> <br>\
 			<br>\
-			Elevation: <span class='danger'>[round(zdial/10)]%</span> <br>\
+			Elevation: <span class='danger'>[zdial]0%</span> <br>\
 			Expected Deviancy: <span class='danger'>[offset_per_turfs]%</span></small>"//Just for fluff.
 	else
 		. += "...<br>\
@@ -85,8 +88,13 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 		to_chat(user, "<span class='warning'>You refrain from firing the [src] while indoors.</span>")
 		return
 
-	var/choice = alert(user, "Would you like to set the bombard's target?","Bombard Dialing", "Target","Dial","Cancel")
-	if (choice == "Cancel")
+	var/choice = alert(user, "Would you like to set the bombard's target?","Bombard Dialing", "Target","Dial","Cancel - Dump Target")
+	if (choice == "Cancel - Dump Target")//Just in case, as a fallback.
+		xdial = 0
+		ydial = 0
+		zdial = 0
+		xinput = 0
+		yinput = 0
 		return
 
 	if (choice == "Target")
@@ -98,27 +106,44 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 		if(ydial + deobfuscate_y(temp_targ_y) > world.maxy || ydial + deobfuscate_y(temp_targ_y) < 0)
 			to_chat(user, "<span class='warning'>You cannot aim at this target, it is outside of your reach.</span>")
 			return
-		var/temp_targ_z = input("Set Z-LIP elevation, if any.") as num|null
-		if(!null)
-			if(zdial + temp_targ_z > world.maxz || zdial + temp_targ_z < 2 || A.is_centcom_level)//Make sure to adjust this if we ever get a map not doing the five traditional areas.
-				to_chat(user, "<span class='warning'>You cannot adjust the bombard in such a manner.</span>")
-				return
-		var/turf/T = locate(deobfuscate_x(temp_targ_x) + xdial, deobfuscate_y(temp_targ_y) + ydial, zdial)
+		var/temp_targ_z = input("Adjust Z-LIP elevation.") as num
+		if(temp_targ_z > 5/*world.maxz*/ || temp_targ_z < 2)//Adjust if we abandon the 5 Z setup.
+			to_chat(user, "<span class='warning'>You cannot adjust the bombard's elevation in such a manner.</span>")
+			return
+
+		//Does anything prevent us from actually hitting that area?
+		var/turf/T = locate(deobfuscate_x(temp_targ_x) + xdial, deobfuscate_y(temp_targ_y) + ydial, temp_targ_z)
 		if(get_dist(loc, T) < 10)
 			to_chat(user, "<span class='warning'>You cannot aim at this target, it is too close to your bombard.</span>")
 			return
-		if(get_dist(loc, T) > 82 && !heavy)//Heavy bombards exclusively can aim anywhere. You can still offset away from the max.
+		if(get_dist(loc, T) > 124 && !heavy)//Heavy bombards, exclusively, can aim anywhere. You can still offset away from the max.
 			to_chat(user, "<span class='warning'>This target is too far away for a light bombard!</span>")
 			return
+
+		//Special checks, now. Eventually, we'll do 'is_centcom_level' and 'is_station_level'. When I make those not awful.
+		//We intentionally allow offsets to target protected locations, since it can't go as deep, or reliably.
+		if(!T.can_see_sky())
+			to_chat(user, "<span class='warning'>This location has a ceiling! You cannot aim directly at it! Adjust!</span>")
+			return
+/*		if(T.arcyne_shroud_check())//Has the magos warded the area? Some locations are protected by default, such as his tower...
+			to_chat(user, "<span class='warning'>This target is protected by an arcyne shroud! You cannot aim directly at it! Adjust!</span>")
+			return
+		if(R.ceiling_protected)//As above. Separate, for good reason. | Commented out. For now.
+			to_chat(user, "<span class='warning'>This target is hardened against intrusion! You cannot dial directly to it! Adjust!</span>")
+			return*/
+
 		if(busy)
 			to_chat(user, "<span class='warning'>Someone else is currently using this bombard.</span>")
 			return
+		//All's well? Continue!
+
 		user.visible_message("<span class='notice'>([user] starts adjusting [src]'s firing angle and distance.</span>",
 		"<span class='notice'>You start adjusting [src]'s firing angle and distance to match the new target's location.</span>")
 		busy = 1
 		if(do_after(user, 30, src))
 			user.visible_message("<span class='notice'>([user] finishes adjusting [src]'s firing angle and distance.</span>",
 			"<span class='notice'>You finish adjusting [src]'s firing angle and distance to match the new target's location.</span>")
+			playsound(loc, 'sound/combat/shieldraise.ogg', 25, TRUE)
 			busy = 0
 			xinput = deobfuscate_x(temp_targ_x)
 			yinput = deobfuscate_y(temp_targ_y)
@@ -126,7 +151,7 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 			var/offset_y_max = round(abs((yinput + ydial) - y)/offset_per_turfs)
 			xoffset = rand(-offset_x_max, offset_x_max)
 			yoffset = rand(-offset_y_max, offset_y_max)
-			if(zdial == null)//No offset? That's fine! We do the bombard's Z!
+			if(zdial == null)//No offset? Somehow? That's fine! We do the bombard's Z!
 				zdial = src.z
 			else
 				zdial = temp_targ_z
@@ -134,6 +159,9 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 			busy = 0
 
 	if (choice == "Dial")
+		if(zdial == null)//Have you even set the elevation? No? GO SET IT!!! HOW DID YOU MANAGE THIS, EVEN? I HATE YOU!!!!!
+			to_chat(user, "<span class='warning'>You've not set the target elevation of your bombard! How do you intend to offset your strike?</span>")
+			return
 		var/temp_dial_x = input("Set X-LIP adjustement from -10 to 10.") as num
 		if(temp_dial_x + xinput > world.maxx || temp_dial_x + xinput < 0)
 			to_chat(user, "<span class='warning'>You cannot dial to this X-LIP, it is outside of the bombard's reach.</span>")
@@ -145,6 +173,8 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 		if(temp_dial_y + yinput > world.maxy || temp_dial_y + yinput < 0)
 			to_chat(user, "<span class='warning'>You cannot dial to this Y-LIP, it is outside of the bombard's reach.</span>")
 			return
+
+		//As above, we do the checks now to see if this is even possible.
 		var/turf/T = locate(xinput + temp_dial_x, yinput + temp_dial_y, zdial)
 		if(get_dist(loc, T) < 10)
 			to_chat(user, "<span class='warning'>You cannot dial to this LIP, it is too close to your bombard.</span>")
@@ -155,6 +185,8 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 		if(busy)
 			to_chat(user, "<span class='warning'>Someone else is currently using this bombard.</span>")
 			return
+		//Good to go? Awesome.
+
 		user.visible_message("<span class='notice'>[user] starts dialing [src]'s firing angle and distance.</span>",
 		"<span class='notice'>You start dialing [src]'s firing angle and distance to match the new target's location.</span>")
 		busy = 1
@@ -235,8 +267,8 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 			"<span class='notice'>You load \a [cannonball.name] into [src].</span>")
 			visible_message("\icon[src] <span class='danger'>The [name] fires!</span>")
 			user.dropItemToGround(cannonball, src)
-			playsound(loc, 'sound/combat/bombard/mortar_fire.ogg', 50, TRUE)
-			loud_message("The sound of a cannon firing can be heard", hearing_distance = 82)
+			playsound(loc, 'sound/combat/bombard/mortar_fire.ogg', 50, TRUE)//We want this heard from anywhere in reach. Except in the case of heavy bombards.
+			loud_message("The sound of a cannon firing can be heard", hearing_distance = 124)//So account for minimum distance, by +10.
 			busy = 0
 			firing = 1
 			flick(icon_state + "_fire", src)
@@ -246,23 +278,30 @@ Requirement of the fusilier trait for aiming and gathering coordinates should li
 				shake_camera(M, 3, 1)
 			spawn(travel_time) //What goes up
 				playsound(T, 'sound/combat/bombard/mortar_long_whistle.ogg', 80, TRUE)
-				T.loud_message("The whistle of a bombard shell can be heard above", hearing_distance = 12)
+				T.loud_message("The whistle of a bombard shell can be heard above", hearing_distance = 12)//An acceptable range, m'lord.
 				spawn(45) //Must go down
 					cannonball.detonate(T)
-
 					qdel(cannonball)
-					xdial = 0//Reset after each shot.
-					ydial = 0
-					zdial = 0
-					xinput = 0
-					yinput = 0
-					powder = FALSE
-					rammed = FALSE
-
 					firing = 0
+
+			var/msg = "[key_name(user)] fired a bombard, aiming at: X[xinput], Y[yinput], Z[zdial] | (Offset: X[xdial], Y[ydial])"
+			message_admins(msg)
+			log_admin(msg)
+			xdial = 0//Reset after each shot. Post logging.
+			ydial = 0
+			zdial = 0
+			xinput = 0
+			yinput = 0
+			powder = FALSE
+			rammed = FALSE
 
 		else
 			busy = 0
+
+/*
+/obj/structure/bombard/AltClick(mob/user)
+	..()
+*/
 
 /obj/structure/bombard/MiddleClick(mob/user)
 	if(busy)
