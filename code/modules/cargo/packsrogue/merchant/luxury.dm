@@ -12,7 +12,7 @@
 
 /datum/supply_pack/rogue/luxury/msigs
 	name = "Mentha Zig"
-	cost = 4
+	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/mentha)
 
 /datum/supply_pack/rogue/luxury/shhig
@@ -37,7 +37,7 @@
 
 /datum/supply_pack/rogue/luxury/fancyteaset
 	name = "Fancy Tea Set (1 Teapot, 4 Cups)"
-	cost = 110
+	cost = 100
 	no_name_quantity = TRUE
 	contains = list(/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy,
 	/obj/item/reagent_containers/glass/cup/ceramic/fancy,
@@ -47,12 +47,12 @@
 
 /datum/supply_pack/rogue/luxury/silverpsicross
 	name = "Silver Psycross"
-	cost = 250
+	cost = 120
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver)
 
 /datum/supply_pack/rogue/luxury/silverdagger
 	name = "Silver Dagger"
-	cost = 150 //Silver weapons have been made much less powerful but much more common over time
+	cost = 120 //Silver weapons have been made much less powerful but much more common over time
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver)
 
 /datum/supply_pack/rogue/luxury/nomag
@@ -160,10 +160,15 @@
 
 /datum/supply_pack/rogue/luxury/parasol
 	name = "Paper Parasol"
-	cost = 30
+	cost = 25
 	contains = list(/obj/item/rogueweapon/mace/parasol)
 
 /datum/supply_pack/rogue/luxury/fineparasol
 	name = "Fine Parasol"
 	cost = 65
 	contains = list(/obj/item/rogueweapon/mace/parasol/noble)
+
+/datum/supply_pack/rogue/luxury/suidust
+	name = "Dust of Disguise (Gender only)"
+	cost = 135
+	contains = list(/obj/item/alch/transisdust)
