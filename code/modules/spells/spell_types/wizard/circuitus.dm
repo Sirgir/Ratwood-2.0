@@ -256,6 +256,13 @@
 	if(M && !(M in mob_list))
 		mob_list += M
 
+/datum/spell_value/mob
+	what_am_i = "mob"
+	var/mob/living/the_mob = null
+
+/datum/spell_value/mob/New(mob/living/M)
+	the_mob = M
+
 /datum/spell_value/coord_list
 	what_am_i = "coordlist"
 	var/list/coord_list = list()
@@ -284,10 +291,9 @@
 	word = "ego"
 
 /datum/spell_operation/me/activate(datum/incantation_data/data)
-	var/turf/my_spot = get_turf(data.caster)
-	if(!my_spot)
+	if(!data.caster)
 		return FALSE
-	data.push_iota(new /datum/spell_value/position(my_spot.x, my_spot.y, my_spot.z))
+	data.push_iota(new /datum/spell_value/mob(data.caster))
 	return TRUE
 
 /datum/spell_operation/clicked
@@ -335,6 +341,13 @@
 		return TRUE
 	else if(data.current_iota.what_am_i == "coords")
 		return TRUE
+	else if(data.current_iota.what_am_i == "mob")
+		var/datum/spell_value/mob/mob_iota = data.current_iota
+		var/turf/T = get_turf(mob_iota.the_mob)
+		if(T)
+			data.current_iota = new /datum/spell_value/position(T.x, T.y, T.z)
+			return TRUE
+		return FALSE
 	else if(data.current_iota.what_am_i == "moblist")
 		var/datum/spell_value/people/victims = data.current_iota
 		if(length(victims.mob_list) == 1)
@@ -661,9 +674,7 @@
 	if(data.current_iota.what_am_i == "moblist")
 		var/datum/spell_value/people/victims = data.current_iota
 		for(var/mob/M in victims.mob_list)
-			var/datum/spell_value/people/single = new()
-			single.add(M)
-			items_to_iterate += single
+			items_to_iterate += new /datum/spell_value/mob(M)
 	else if(data.current_iota.what_am_i == "coordlist")
 		var/datum/spell_value/coord_list/coords = data.current_iota
 		for(var/datum/spell_value/position/pos in coords.coord_list)
@@ -933,7 +944,10 @@
 			continue
 		victims.add(L)
 
-	data.current_iota = victims
+	if(length(victims.mob_list) == 1)
+		data.current_iota = new /datum/spell_value/mob(victims.mob_list[1])
+	else
+		data.current_iota = victims
 	return TRUE
 
 /datum/spell_command
@@ -1380,6 +1394,171 @@
 /datum/spell_command/make_wall/proc/make_wall_piece(turf/T, mob/caster)
 	new /obj/structure/forcefield_weak(T, caster)
 
+/datum/spell_command/buff_strength
+	word = "vis"
+	fatiguecost = 20
+	needs_spell = /obj/effect/proc_holder/spell/invoked/giants_strength
+
+/datum/spell_command/buff_strength/do_spell(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "mob")
+		return FALSE
+
+	var/datum/spell_value/mob/mob_iota = data.current_iota
+	var/mob/living/target = mob_iota.the_mob
+
+	if(!target)
+		return FALSE
+
+	var/turf/caster_spot = get_turf(data.caster)
+	var/turf/target_spot = get_turf(target)
+	if(get_dist(caster_spot, target_spot) > 14)
+		to_chat(data.caster, span_warning("Too far away!"))
+		return FALSE
+
+	var/bonus = 1
+	var/datum/spell_value/number/power = data.peek_stack(0)
+	if(power && power.what_am_i == "number")
+		bonus = min(max(power.num, 1), 3)
+		data.pop_iota()
+
+	data.caster.stamina_add(fatiguecost)
+
+	playsound(target_spot, 'sound/magic/haste.ogg', 80, TRUE)
+	target.apply_status_effect(/datum/status_effect/buff/circuitus_strength, bonus)
+	return TRUE
+
+/datum/spell_command/buff_constitution
+	word = "saxum"
+	fatiguecost = 20
+	needs_spell = /obj/effect/proc_holder/spell/invoked/fortitude
+
+/datum/spell_command/buff_constitution/do_spell(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "mob")
+		return FALSE
+
+	var/datum/spell_value/mob/mob_iota = data.current_iota
+	var/mob/living/target = mob_iota.the_mob
+
+	if(!target)
+		return FALSE
+
+	var/turf/caster_spot = get_turf(data.caster)
+	var/turf/target_spot = get_turf(target)
+	if(get_dist(caster_spot, target_spot) > 14)
+		to_chat(data.caster, span_warning("Too far away!"))
+		return FALSE
+
+	var/bonus = 1
+	var/datum/spell_value/number/power = data.peek_stack(0)
+	if(power && power.what_am_i == "number")
+		bonus = min(max(power.num, 1), 3)
+		data.pop_iota()
+
+	data.caster.stamina_add(fatiguecost)
+
+	playsound(target_spot, 'sound/magic/haste.ogg', 80, TRUE)
+	target.apply_status_effect(/datum/status_effect/buff/circuitus_constitution, bonus)
+	return TRUE
+
+/datum/spell_command/buff_speed
+	word = "festinatio"
+	fatiguecost = 20
+	needs_spell = /obj/effect/proc_holder/spell/invoked/haste
+
+/datum/spell_command/buff_speed/do_spell(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "mob")
+		return FALSE
+
+	var/datum/spell_value/mob/mob_iota = data.current_iota
+	var/mob/living/target = mob_iota.the_mob
+
+	if(!target)
+		return FALSE
+
+	var/turf/caster_spot = get_turf(data.caster)
+	var/turf/target_spot = get_turf(target)
+	if(get_dist(caster_spot, target_spot) > 14)
+		to_chat(data.caster, span_warning("Too far away!"))
+		return FALSE
+
+	var/bonus = 1
+	var/datum/spell_value/number/power = data.peek_stack(0)
+	if(power && power.what_am_i == "number")
+		bonus = min(max(power.num, 1), 3)
+		data.pop_iota()
+
+	data.caster.stamina_add(fatiguecost)
+
+	playsound(target_spot, 'sound/magic/haste.ogg', 80, TRUE)
+	target.apply_status_effect(/datum/status_effect/buff/circuitus_speed, bonus)
+	return TRUE
+
+/datum/spell_command/buff_perception
+	word = "oculi"
+	fatiguecost = 20
+	needs_spell = /obj/effect/proc_holder/spell/invoked/hawks_eyes
+
+/datum/spell_command/buff_perception/do_spell(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "mob")
+		return FALSE
+
+	var/datum/spell_value/mob/mob_iota = data.current_iota
+	var/mob/living/target = mob_iota.the_mob
+
+	if(!target)
+		return FALSE
+
+	var/turf/caster_spot = get_turf(data.caster)
+	var/turf/target_spot = get_turf(target)
+	if(get_dist(caster_spot, target_spot) > 14)
+		to_chat(data.caster, span_warning("Too far away!"))
+		return FALSE
+
+	var/bonus = 1
+	var/datum/spell_value/number/power = data.peek_stack(0)
+	if(power && power.what_am_i == "number")
+		bonus = min(max(power.num, 1), 3)
+		data.pop_iota()
+
+	data.caster.stamina_add(fatiguecost)
+
+	playsound(target_spot, 'sound/magic/haste.ogg', 80, TRUE)
+	target.apply_status_effect(/datum/status_effect/buff/circuitus_perception, bonus)
+	return TRUE
+
+/datum/spell_command/buff_endurance
+	word = "tenax"
+	fatiguecost = 20
+	needs_spell = /obj/effect/proc_holder/spell/invoked/fortitude
+
+/datum/spell_command/buff_endurance/do_spell(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "mob")
+		return FALSE
+
+	var/datum/spell_value/mob/mob_iota = data.current_iota
+	var/mob/living/target = mob_iota.the_mob
+
+	if(!target)
+		return FALSE
+
+	var/turf/caster_spot = get_turf(data.caster)
+	var/turf/target_spot = get_turf(target)
+	if(get_dist(caster_spot, target_spot) > 14)
+		to_chat(data.caster, span_warning("Too far away!"))
+		return FALSE
+
+	var/bonus = 1
+	var/datum/spell_value/number/power = data.peek_stack(0)
+	if(power && power.what_am_i == "number")
+		bonus = min(max(power.num, 1), 3)
+		data.pop_iota()
+
+	data.caster.stamina_add(fatiguecost)
+
+	playsound(target_spot, 'sound/magic/haste.ogg', 80, TRUE)
+	target.apply_status_effect(/datum/status_effect/buff/circuitus_endurance, bonus)
+	return TRUE
+
 /obj/effect/temp_visual/spell_visual
 	layer = MASSIVE_OBJ_LAYER
 
@@ -1496,5 +1675,81 @@ GLOBAL_LIST_INIT(spell_command_list, list(
 	"reficio" = new /datum/spell_command/fix_item(),
 	"obmolior" = new /datum/spell_command/push_away(),
 	"recolligere" = new /datum/spell_command/pull_close(),
-	"murus" = new /datum/spell_command/make_wall()
+	"murus" = new /datum/spell_command/make_wall(),
+	"vis" = new /datum/spell_command/buff_strength(),
+	"saxum" = new /datum/spell_command/buff_constitution(),
+	"festinatio" = new /datum/spell_command/buff_speed(),
+	"oculi" = new /datum/spell_command/buff_perception(),
+	"tenax" = new /datum/spell_command/buff_endurance()
 ))
+
+/datum/status_effect/buff/circuitus_strength
+	id = "circuitus_strength"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/circuitus_strength
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/circuitus_strength/on_creation(mob/living/new_owner, bonus = 1)
+	effectedstats = list(STATKEY_STR = bonus)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/circuitus_strength
+	name = "Giant's Strength"
+	desc = "My muscles are strengthened."
+	icon_state = "buff"
+
+/datum/status_effect/buff/circuitus_constitution
+	id = "circuitus_constitution"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/circuitus_constitution
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/circuitus_constitution/on_creation(mob/living/new_owner, bonus = 1)
+	effectedstats = list(STATKEY_CON = bonus)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/circuitus_constitution
+	name = "Stoneskin"
+	desc = "My skin is hardened like stone."
+	icon_state = "buff"
+
+/datum/status_effect/buff/circuitus_speed
+	id = "circuitus_speed"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/circuitus_speed
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/circuitus_speed/on_creation(mob/living/new_owner, bonus = 1)
+	effectedstats = list(STATKEY_SPD = bonus)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/circuitus_speed
+	name = "Haste"
+	desc = "I am magically hastened."
+	icon_state = "buff"
+
+/datum/status_effect/buff/circuitus_perception
+	id = "circuitus_perception"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/circuitus_perception
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/circuitus_perception/on_creation(mob/living/new_owner, bonus = 1)
+	effectedstats = list(STATKEY_PER = bonus)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/circuitus_perception
+	name = "Hawk's Eyes"
+	desc = "My vision is sharpened."
+	icon_state = "buff"
+
+/datum/status_effect/buff/circuitus_endurance
+	id = "circuitus_endurance"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/circuitus_endurance
+	duration = 30 SECONDS
+
+/datum/status_effect/buff/circuitus_endurance/on_creation(mob/living/new_owner, bonus = 1)
+	effectedstats = list(STATKEY_END = bonus)
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/circuitus_endurance
+	name = "Fortitude"
+	desc = "My humors has been hardened to the fatigues of the body."
+	icon_state = "buff"
+
