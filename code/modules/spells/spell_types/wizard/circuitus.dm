@@ -966,11 +966,6 @@
 		var/datum/spell_value/position/pos = data.current_iota
 		var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
 		if(T) spots = list(T)
-	else if(data.current_iota.what_am_i == "coordlist")
-		var/datum/spell_value/coord_list/clist = data.current_iota
-		for(var/datum/spell_value/position/pos in clist.coord_list)
-			var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
-			if(T) spots += T
 	else
 		return FALSE
 
@@ -993,15 +988,6 @@
 		data.pop_iota()
 
 	data.caster.stamina_add(fatiguecost)
-
-	var/energy_drain = 0
-	if(strength == 1)
-		energy_drain = -33
-	else if(strength == 2)
-		energy_drain = -100
-
-	if(energy_drain < 0)
-		data.caster.energy_add(energy_drain)
 
 	for(var/turf/T in spots)
 		new /obj/effect/temp_visual/spell_visual/fire_warning(T)
@@ -1036,11 +1022,6 @@
 		var/datum/spell_value/position/pos = data.current_iota
 		var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
 		if(T) spots = list(T)
-	else if(data.current_iota.what_am_i == "coordlist")
-		var/datum/spell_value/coord_list/clist = data.current_iota
-		for(var/datum/spell_value/position/pos in clist.coord_list)
-			var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
-			if(T) spots += T
 	else
 		return FALSE
 
@@ -1063,15 +1044,6 @@
 		data.pop_iota()
 
 	data.caster.stamina_add(fatiguecost)
-
-	var/energy_drain = 0
-	if(strength == 1)
-		energy_drain = -33
-	else if(strength == 2)
-		energy_drain = -100
-
-	if(energy_drain < 0)
-		data.caster.energy_add(energy_drain)
 
 	for(var/turf/T in spots)
 		new /obj/effect/temp_visual/spell_visual/lightning_warning(T)
@@ -1160,11 +1132,6 @@
 		var/datum/spell_value/position/pos = data.current_iota
 		var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
 		if(T) spots = list(T)
-	else if(data.current_iota.what_am_i == "coordlist")
-		var/datum/spell_value/coord_list/clist = data.current_iota
-		for(var/datum/spell_value/position/pos in clist.coord_list)
-			var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
-			if(T) spots += T
 	else
 		return FALSE
 
@@ -1187,15 +1154,6 @@
 		data.pop_iota()
 
 	data.caster.stamina_add(fatiguecost)
-
-	var/energy_drain = 0
-	if(strength == 1)
-		energy_drain = -33
-	else if(strength == 2)
-		energy_drain = -100
-
-	if(energy_drain < 0)
-		data.caster.energy_add(energy_drain)
 
 	for(var/turf/T in spots)
 		new /obj/effect/temp_visual/spell_visual/gravity_warning(T)
@@ -1282,11 +1240,6 @@
 		var/datum/spell_value/position/pos = data.current_iota
 		var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
 		if(T) spots = list(T)
-	else if(data.current_iota.what_am_i == "coordlist")
-		var/datum/spell_value/coord_list/clist = data.current_iota
-		for(var/datum/spell_value/position/pos in clist.coord_list)
-			var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
-			if(T) spots += T
 	else
 		return FALSE
 
@@ -1310,14 +1263,6 @@
 		data.pop_iota()
 
 	data.caster.stamina_add(fatiguecost)
-
-	var/energy_per_target = -33
-	var/extra_distance = max(how_far - 1, 0)
-	if(extra_distance > 0)
-		energy_per_target = energy_per_target + (-17 * extra_distance)
-
-	var/total_energy = energy_per_target * length(spots)
-	data.caster.energy_add(total_energy)
 
 	for(var/turf/T in spots)
 		new /obj/effect/temp_visual/spell_visual/push_warning(T)
@@ -1350,11 +1295,6 @@
 		var/datum/spell_value/position/pos = data.current_iota
 		var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
 		if(T) spots = list(T)
-	else if(data.current_iota.what_am_i == "coordlist")
-		var/datum/spell_value/coord_list/clist = data.current_iota
-		for(var/datum/spell_value/position/pos in clist.coord_list)
-			var/turf/T = locate(pos.x_pos, pos.y_pos, pos.z_pos)
-			if(T) spots += T
 	else
 		return FALSE
 
@@ -1378,14 +1318,6 @@
 		data.pop_iota()
 
 	data.caster.stamina_add(fatiguecost)
-
-	var/energy_per_target = -33
-	var/extra_distance = max(how_far - 1, 0)
-	if(extra_distance > 0)
-		energy_per_target = energy_per_target + (-17 * extra_distance)
-
-	var/total_energy = energy_per_target * length(spots)
-	data.caster.energy_add(total_energy)
 
 	for(var/turf/T in spots)
 		new /obj/effect/temp_visual/spell_visual/pull_warning(T)
