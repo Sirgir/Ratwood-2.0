@@ -170,6 +170,18 @@
 	</div>
 	"}
 
+/datum/book_entry/inspicio
+	name = "Inspicio"
+	category = "Circuitus"
+
+/datum/book_entry/inspicio/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Inspicio</h2>
+	This command informs you of what the current iota is.
+	</div>
+	"}
+
 /datum/book_entry/locus
 	name = "Locus"
 	category = "Circuitus"
@@ -218,6 +230,18 @@
 	</div>
 	"}
 
+/datum/book_entry/manus
+	name = "Manus"
+	category = "Circuitus"
+
+/datum/book_entry/manus/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Manus</h2>
+	This command provides the current item in hand as an iota.
+	</div>
+	"}
+
 /datum/book_entry/distantia
 	name = "Distantia"
 	category = "Circuitus"
@@ -227,6 +251,18 @@
 	<div>
 	<h2>Distantia</h2>
 	This command provides the distance between two coordinates.
+	</div>
+	"}
+
+/datum/book_entry/linea
+	name = "Linea"
+	category = "Circuitus"
+
+/datum/book_entry/linea/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Linea</h2>
+	This command receives two coordinates and provides a list of all coordinates between them.
 	</div>
 	"}
 
@@ -311,6 +347,18 @@
 	<div>
 	<h2>Ruptis</h2>
 	This command provides a duplicate iota of the previous iota.
+	</div>
+	"}
+
+/datum/book_entry/profundus
+	name = "Profundus"
+	category = "Circuitus"
+
+/datum/book_entry/profundus/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Profundus</h2>
+	This command receives a number iota and provides a duplicate iota of a previous iota, the number specifies the depth of the previous iota provided.
 	</div>
 	"}
 
@@ -454,7 +502,32 @@
 	return {"
 	<div>
 	<h2>Lista</h2>
-	This command provides an empty coordinate list.
+	This command receives any non-list iota and turns it into a list of its type.
+	</div>
+	"}
+
+/datum/book_entry/indicis
+	name = "Indicis"
+	category = "Circuitus"
+
+/datum/book_entry/indicis/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Indicis</h2>
+	This command receives a list iota and a number iota. It uses the number to select a specific index of the list and provides the iota within.
+	If there is no current iota, it will provide an empty coordinate list.
+	</div>
+	"}
+
+/datum/book_entry/lego
+	name = "Lego"
+	category = "Circuitus"
+
+/datum/book_entry/lego/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Lego</h2>
+	This command receives an item iota. The item must be a memory string. It provides the current iota stored on the memory string.
 	</div>
 	"}
 
@@ -528,8 +601,7 @@
 	return {"
 	<div>
 	<h2>Homines</h2>
-	This command receives a number and coordinate. The coordinate must precede the number. It provides a list of humens (or other sapient species)
-	in an area around the coordinate, in a radius equal to the number iota used.
+	This command receives a coordinate. It provides a list of humens (or other sapient species) in an area equal to seven tiles around the coordinate.
 	</div>
 	"}
 
@@ -735,5 +807,20 @@
 	<BR>
 	This spell command receives (optionally) a number and an iota of a creature. The creature's endurance will be enhanced by number given, to a limit of 3.
 	Lasts for 20 seconds.
+	</div>
+	"}
+
+/datum/book_entry/scribo
+	name = "Scribo!"
+	category = "Circuitus"
+
+/datum/book_entry/scribo/inner_book_html(mob/user)
+	return {"
+	<div>
+	<h2>Scribo!</h2>
+	REQUIRES NO SPELL KNOWLEDGE TO USE.
+	<BR>
+	<BR>
+	This spell command receives any iota and then an iota of an item. The item must be a memory string. It will store the first iota into the memory string.
 	</div>
 	"}

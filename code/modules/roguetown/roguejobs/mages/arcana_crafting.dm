@@ -336,3 +336,10 @@
 	reqs = list(/obj/item/magic/manacrystal = 1,
 				/obj/item/paper/scroll = 1)
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/arcana/memory_string
+	name = "memory string"
+	result = /obj/item/circuitus_scroll
+	reqs = list(/datum/reagent/medicine/manapot = 15,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 1

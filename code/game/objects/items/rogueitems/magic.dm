@@ -400,6 +400,7 @@ Necra's Censer
 	pickup_sound =  'sound/blank.ogg'
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	grind_results = list(/datum/reagent/cellulose = 3)
+	color = "#A7C7E7"
 	throw_range = 1
 	throw_speed = 1
 	throwforce = 0
@@ -419,3 +420,20 @@ Necra's Censer
 		return
 	else
 		to_chat(user, "The scroll reads: [spell_info]")
+
+/obj/item/memory_string
+	name = "memory string"
+	icon = 'icons/roguetown/items/natural.dmi'
+	icon_state = "fibers"
+	possible_item_intents = list(/datum/intent/use)
+	desc = "A memory string. For use in the art of circuitus, as a means to store iotas."
+	force = 0
+	throwforce = 0
+	obj_flags = null
+	color = "#A7C7E7"
+	firefuel = 5 MINUTES
+	resistance_flags = FLAMMABLE
+	max_integrity = 20
+	w_class = WEIGHT_CLASS_TINY
+	sellprice = 2
+	var/iota

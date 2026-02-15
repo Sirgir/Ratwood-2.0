@@ -1,9 +1,9 @@
 /obj/effect/proc_holder/spell/invoked/incantation
 	name = "Circuitus"
-	desc = "Noc's gift to mankind, the ability to shape the arcyne with mortal speech.<BR>Requires other spells to use to its full potential."
+	desc = "Noc's gift to mankind, the ability to shape the arcyne with mortal speech. Requires other spells to use to its full potential."
 	range = 14
 	selection_type = "range"
-	recharge_time = 30 SECONDS
+	recharge_time = 20 SECONDS
 	releasedrain = 0
 	chargedrain = 0
 	chargetime = 0
@@ -24,7 +24,7 @@
 
 	var/turf/clicked_spot = get_turf(targets[1])
 	var/obj/item/circuitus_scroll/sacrifice
-	spell_process = new /datum/incantation_data(user, clicked_spot)
+	spell_process = new /datum/incantation_data(user, clicked_spot, src)
 
 	for(var/obj/item/I in user.held_items)
 		if(istype(I, /obj/item/circuitus_scroll))
@@ -43,10 +43,16 @@
 		spell_process = null
 		return FALSE
 
-	if(spell_process.parse_and_execute(incantation))
-		return TRUE
+	var/result = spell_process.parse_and_execute(incantation)
+	var/used_spell = spell_process.spell_command_used
+
+	spell_process = null
+
+	if(used_spell)
+		return FALSE
 	else
-		spell_process = null
+		if(!result)
+			revert_cast()
 		return FALSE
 
 /datum/incantation_data
@@ -58,10 +64,13 @@
 	var/in_loop = FALSE
 	var/skip_until_else = FALSE
 	var/in_conditional = FALSE
+	var/spell_command_used = FALSE
+	var/obj/effect/proc_holder/spell/spell_holder = null
 
-/datum/incantation_data/New(mob/living/user, turf/spot)
+/datum/incantation_data/New(mob/living/user, turf/spot, obj/effect/proc_holder/spell/holder)
 	caster = user
 	target_location = spot
+	spell_holder = holder
 
 /datum/incantation_data/proc/parse_and_execute(text)
 	text = trim(lowertext(text))
@@ -154,6 +163,11 @@
 			to_chat(caster, span_warning("You don't know how to manifest '[word]'!"))
 			return FALSE
 
+	if(!spell_command_used && spell_holder)
+		spell_holder.charge_counter = 0
+		spell_holder.start_recharge()
+
+	spell_command_used = TRUE
 	return spell.activate(src)
 
 /datum/incantation_data/proc/push_iota(datum/spell_value/val)
@@ -435,6 +449,18 @@
 
 	return FALSE
 
+/datum/spell_operation/get_held_item
+	word = "manus"
+
+/datum/spell_operation/get_held_item/activate(datum/incantation_data/data)
+	for(var/obj/item/I in data.caster.held_items)
+		if(istype(I, /obj/item/circuitus_scroll))
+			continue
+		data.push_iota(new /datum/spell_value/item_thing(I))
+		return TRUE
+
+	return FALSE
+
 /datum/spell_operation/coord_distance
 	word = "distantia"
 
@@ -468,7 +494,13 @@
 	if(!base_list)
 		return FALSE
 
-	if(base_list.what_am_i == "moblist" && item_to_add.what_am_i == "moblist")
+	if(base_list.what_am_i == "moblist" && item_to_add.what_am_i == "mob")
+		var/datum/spell_value/people/list1 = base_list
+		var/datum/spell_value/mob/m = item_to_add
+		list1.add(m.the_mob)
+		data.current_iota = list1
+		return TRUE
+	else if(base_list.what_am_i == "moblist" && item_to_add.what_am_i == "moblist")
 		var/datum/spell_value/people/list1 = base_list
 		var/datum/spell_value/people/list2 = item_to_add
 		for(var/mob/M in list2.mob_list)
@@ -504,7 +536,13 @@
 	if(!base_list)
 		return FALSE
 
-	if(base_list.what_am_i == "moblist" && item_to_remove.what_am_i == "moblist")
+	if(base_list.what_am_i == "moblist" && item_to_remove.what_am_i == "mob")
+		var/datum/spell_value/people/list1 = base_list
+		var/datum/spell_value/mob/m = item_to_remove
+		list1.mob_list -= m.the_mob
+		data.current_iota = list1
+		return TRUE
+	else if(base_list.what_am_i == "moblist" && item_to_remove.what_am_i == "moblist")
 		var/datum/spell_value/people/list1 = base_list
 		var/datum/spell_value/people/list2 = item_to_remove
 		for(var/mob/M in list2.mob_list)
@@ -777,9 +815,151 @@
 /datum/spell_operation/make_coordlist
 	word = "lista"
 
+/datum/spell_operation/make_coordlist
+	word = "lista"
+
 /datum/spell_operation/make_coordlist/activate(datum/incantation_data/data)
-	var/datum/spell_value/coord_list/new_list = new()
-	data.push_iota(new_list)
+	if(!data.current_iota)
+		var/datum/spell_value/coord_list/new_list = new()
+		data.push_iota(new_list)
+		return TRUE
+
+	if(data.current_iota.what_am_i == "coords")
+		var/datum/spell_value/position/pos = data.current_iota
+		var/datum/spell_value/coord_list/new_list = new()
+		new_list.add(pos)
+		data.current_iota = new_list
+		return TRUE
+	else if(data.current_iota.what_am_i == "mob")
+		var/datum/spell_value/mob/m = data.current_iota
+		var/datum/spell_value/people/new_list = new()
+		new_list.add(m.the_mob)
+		data.current_iota = new_list
+		return TRUE
+	else if(data.current_iota.what_am_i == "coordlist" || data.current_iota.what_am_i == "moblist")
+		return TRUE
+	else
+		return FALSE
+
+/datum/spell_operation/retrieve_iota
+	word = "lego"
+
+/datum/spell_operation/retrieve_iota/activate(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "item")
+		return FALSE
+
+	var/datum/spell_value/item_thing/item_iota = data.current_iota
+	if(!istype(item_iota.the_item, /obj/item/memory_string))
+		return FALSE
+
+	var/obj/item/memory_string/memory = item_iota.the_item
+	if(!memory.iota)
+		return FALSE
+
+	data.current_iota = memory.iota
+	return TRUE
+
+/datum/spell_operation/indexed_list_get
+	word = "indicis"
+
+/datum/spell_operation/indexed_list_get/activate(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "number")
+		return FALSE
+
+	var/datum/spell_value/number/index = data.current_iota
+	var/datum/spell_value/the_list = data.pop_iota()
+
+	if(!the_list)
+		return FALSE
+
+	var/idx = max(1, index.num)
+
+	if(the_list.what_am_i == "moblist")
+		var/datum/spell_value/people/mlist = the_list
+		if(idx > length(mlist.mob_list))
+			return FALSE
+		data.current_iota = new /datum/spell_value/mob(mlist.mob_list[idx])
+		return TRUE
+	else if(the_list.what_am_i == "coordlist")
+		var/datum/spell_value/coord_list/clist = the_list
+		if(idx > length(clist.coord_list))
+			return FALSE
+		data.current_iota = clist.coord_list[idx]
+		return TRUE
+	else
+		return FALSE
+
+/datum/spell_operation/deep_stack_get
+	word = "profundus"
+
+/datum/spell_operation/deep_stack_get/activate(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "number")
+		return FALSE
+
+	var/datum/spell_value/number/depth = data.current_iota
+	var/datum/spell_value/retrieved = data.peek_stack(depth.num)
+
+	if(!retrieved)
+		return FALSE
+
+	data.current_iota = retrieved
+	return TRUE
+
+/datum/spell_operation/line_coords
+	word = "linea"
+
+/datum/spell_operation/line_coords/activate(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "coords")
+		return FALSE
+
+	var/datum/spell_value/position/end_pos = data.current_iota
+	var/datum/spell_value/position/start_pos = data.pop_iota()
+
+	if(!start_pos || start_pos.what_am_i != "coords")
+		return FALSE
+
+	var/turf/start_turf = locate(start_pos.x_pos, start_pos.y_pos, start_pos.z_pos)
+	var/turf/end_turf = locate(end_pos.x_pos, end_pos.y_pos, end_pos.z_pos)
+
+	if(!start_turf || !end_turf)
+		return FALSE
+
+	var/datum/spell_value/coord_list/line = new()
+	var/list/turf_line = getline(start_turf, end_turf)
+
+	for(var/turf/T in turf_line)
+		line.add(new /datum/spell_value/position(T.x, T.y, T.z))
+
+	data.current_iota = line
+	return TRUE
+
+/datum/spell_operation/inspect_iota
+	word = "inspicio"
+
+/datum/spell_operation/inspect_iota/activate(datum/incantation_data/data)
+	if(!data.current_iota)
+		to_chat(data.caster, span_notice("Current iota: nothing"))
+		return TRUE
+
+	var/message = "Current iota: [data.current_iota.what_am_i]"
+
+	if(data.current_iota.what_am_i == "number")
+		var/datum/spell_value/number/n = data.current_iota
+		message += " ([n.num])"
+	else if(data.current_iota.what_am_i == "coords")
+		var/datum/spell_value/position/pos = data.current_iota
+		message += " ([pos.x_pos], [pos.y_pos], [pos.z_pos])"
+	else if(data.current_iota.what_am_i == "moblist")
+		var/datum/spell_value/people/ppl = data.current_iota
+		message += " (count: [length(ppl.mob_list)])"
+	else if(data.current_iota.what_am_i == "coordlist")
+		var/datum/spell_value/coord_list/clist = data.current_iota
+		message += " (count: [length(clist.coord_list)])"
+	else if(data.current_iota.what_am_i == "mob")
+		var/datum/spell_value/mob/m = data.current_iota
+		message += " ([m.the_mob])"
+
+	to_chat(data.caster, span_notice(message))
 	return TRUE
 
 /datum/spell_operation/copy
@@ -944,10 +1124,7 @@
 			continue
 		victims.add(L)
 
-	if(length(victims.mob_list) == 1)
-		data.current_iota = new /datum/spell_value/mob(victims.mob_list[1])
-	else
-		data.current_iota = victims
+	data.current_iota = victims
 	return TRUE
 
 /datum/spell_command
@@ -1237,6 +1414,41 @@
 		target_item.obj_fix()
 
 	playsound(target_item, 'sound/foley/sewflesh.ogg', 50)
+	return TRUE
+
+/datum/spell_command/store_iota
+	word = "scribo"
+	fatiguecost = 5
+	needs_spell = null
+
+/datum/spell_command/store_iota/do_spell(datum/incantation_data/data)
+	if(!data.current_iota || data.current_iota.what_am_i != "item")
+		return FALSE
+
+	var/datum/spell_value/item_thing/item_iota = data.current_iota
+	if(!istype(item_iota.the_item, /obj/item/memory_string))
+		return FALSE
+
+	var/obj/item/memory_string/memory = item_iota.the_item
+	var/datum/spell_value/value_to_store = data.pop_iota()
+	if(!value_to_store)
+		return FALSE
+
+	var/turf/item_spot = get_turf(memory)
+	var/turf/caster_spot = get_turf(data.caster)
+
+	if(get_dist(caster_spot, item_spot) > 14)
+		to_chat(data.caster, span_warning("Too far away!"))
+		return FALSE
+
+	if(!data.can_see_through(caster_spot, item_spot))
+		to_chat(data.caster, span_warning("Cannot see through walls!"))
+		return FALSE
+
+	data.caster.stamina_add(fatiguecost)
+
+	memory.iota = value_to_store
+	data.current_iota = item_iota
 	return TRUE
 
 /datum/spell_command/push_away
@@ -1637,6 +1849,7 @@ GLOBAL_LIST_INIT(spell_word_list, list(
 	"prospectus" = new /datum/spell_operation/get_facing(),
 	"res" = new /datum/spell_operation/get_stuff_here(),
 	"obiectum" = new /datum/spell_operation/get_item(),
+	"manus" = new /datum/spell_operation/get_held_item(),
 	"distantia" = new /datum/spell_operation/coord_distance(),
 	"addo" = new /datum/spell_operation/list_add(),
 	"removeo" = new /datum/spell_operation/list_remove(),
@@ -1657,6 +1870,11 @@ GLOBAL_LIST_INIT(spell_word_list, list(
 	"sex" = new /datum/spell_operation/six(),
 	"septem" = new /datum/spell_operation/seven(),
 	"lista" = new /datum/spell_operation/make_coordlist(),
+	"lego" = new /datum/spell_operation/retrieve_iota(),
+	"indicis" = new /datum/spell_operation/indexed_list_get(),
+	"profundus" = new /datum/spell_operation/deep_stack_get(),
+	"linea" = new /datum/spell_operation/line_coords(),
+	"inspicio" = new /datum/spell_operation/inspect_iota(),
 	"inversus" = new /datum/spell_operation/flip_sign(),
 	"summa" = new /datum/spell_operation/add_nums(),
 	"multiplicatio" = new /datum/spell_operation/times_nums(),
@@ -1673,6 +1891,7 @@ GLOBAL_LIST_INIT(spell_command_list, list(
 	"teleporto" = new /datum/spell_command/teleport(),
 	"pondus" = new /datum/spell_command/crush(),
 	"reficio" = new /datum/spell_command/fix_item(),
+	"scribo" = new /datum/spell_command/store_iota(),
 	"obmolior" = new /datum/spell_command/push_away(),
 	"recolligere" = new /datum/spell_command/pull_close(),
 	"murus" = new /datum/spell_command/make_wall(),
