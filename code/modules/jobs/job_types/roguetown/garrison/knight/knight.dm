@@ -37,7 +37,6 @@
 /datum/job/roguetown/knight/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(ishuman(L))
-		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, cloak_and_title_setup)), 50)
 		var/mob/living/carbon/human/H = L
 		var/prev_real_name = H.real_name
 		var/prev_name = H.name
@@ -52,6 +51,8 @@
 				if(MF.known_people)
 					MF.known_people -= prev_real_name
 					H.mind.person_knows_me(MF)
+
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, cloak_and_title_setup)), 50)
 
 /datum/outfit/job/roguetown/knight
 	neck = /obj/item/clothing/neck/roguetown/bevor

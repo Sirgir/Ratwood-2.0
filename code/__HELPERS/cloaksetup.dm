@@ -38,19 +38,9 @@
 	var/choive_key = input(src, "Choose your cloak", "IDENTIFY YOURSELF") as anything in allowed_cloaks
 	var/typepath = allowed_cloaks[choive_key]
 	var/obj/item/clothing/cloak/cloak_choice = new typepath(src)
-	cloak_choice.name = "[name_index] [cloak_choice.name] ([findtext(src.real_name, " ") ? copytext(src.real_name, 1, findtext(src.real_name, " ")) : src.real_name])"
-	src.equip_to_slot_or_del(cloak_choice, SLOT_CLOAK)/*
+	var/list/namesplit = splittext(src.real_name, " ")
 	if(src.mind.assigned_role == "Knight")
-		var/prev_real_name = src.real_name
-		var/prev_name = src.name
-		var/honorary = "Ser"
-		if(should_wear_femme_clothes(src))
-			honorary = "Dame"
-		src.real_name = "[honorary] [prev_real_name]"
-		src.name = "[honorary] [prev_name]"
-
-		for(var/X in peopleknowme)
-			for(var/datum/mind/MF in get_minds(X))
-				if(MF.known_people)
-					MF.known_people -= prev_real_name
-					src.mind.person_knows_me(MF)*/
+		cloak_choice.name = "[name_index] [cloak_choice.name] ([namesplit[2]])"
+	else
+		cloak_choice.name = "[name_index] [cloak_choice.name] ([namesplit[1]])"
+	src.equip_to_slot_or_del(cloak_choice, SLOT_CLOAK)
